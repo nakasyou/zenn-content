@@ -1,0 +1,2 @@
+# zenn-content
+Zenn.dev
