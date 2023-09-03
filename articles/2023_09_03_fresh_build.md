@@ -97,5 +97,5 @@ jobs:
 Freshの事前ビルドを使えば、高速化ができます！
 ぜひ、使ってみてください！
 ## 参考
-- https://deno.com/blog/fresh-1.4
-- https://fresh.deno.dev/docs/concepts/ahead-of-time-builds
+https://deno.com/blog/fresh-1.4
+https://fresh.deno.dev/docs/concepts/ahead-of-time-builds
