@@ -44,7 +44,7 @@ deno run -A main.ts
 このままだと、`Deno.openKV`などのunstableなAPIに対応していません。ビルド時にエラーを吐きます。
 
 `deno.json(c)`を以下のように編集すれば良いのです。
-```json
+```diff json:deno.json
   "tasks": {
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "start": "deno run -A --watch=static/,routes/ dev.ts",
