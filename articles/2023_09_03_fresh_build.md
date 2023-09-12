@@ -56,7 +56,7 @@ deno run -A main.ts
 ```
 ## Actionsから使う
 ビルドしないFreshでは、そのままDeno Deployにデプロイしていると思いますが、ビルドする場合、GitHub Actionsを通すのが簡単だと思います。
-```yaml
+```yaml:.github/workflows/deploy.yaml
 name: Deploy
 on:
   push:
