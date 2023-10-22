@@ -169,7 +169,16 @@ function FindProxyForURL(url, host) {
   return "DIRECT"
 }
 ```
-と返せば良いだけです。`"DIRECT"`というのは、プロキシサーバを使わないという意味です。
+と返せば良いだけです。
+中身は`FindProxyForURL`というJavaScriptの関数になっていて、リクエストが飛ぶたびに実行されます。
+`url`と`host`を受け取り、どのような挙動をするかを返します。
+
+返り値は、だいたいこんな感じです([実際もっとあります](https://developer.mozilla.org/ja/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file#返値の形式))
+- `DIRECT` リクエストはプロキシを介さずに、直接行われます。
+- `PROXY {host:port}` 指定されたプロキシーを使用します。
+- `SOCKS {host:port}` 指定されたSOCKSサーバーを使用する
+
+このコードでは常に`return "DIRECT"`しているので、常にプロキシサーバを使わないという意味です。つまりフィルタリングが解除されます。
 
 私の場合、Denoで
 ```ts
