@@ -116,19 +116,22 @@ Deno Deployでデプロイします。
 「Deno Deployの基本的な使い方がわかる」が、対象読者に含まれているので、詳細なやり方は割愛します。
 
 ## LINE公式アカウントの作成
-公式アカウントを作ります。
+公式アカウントを作っていきます。
+まず、[LINE Developer Console](https://developers.line.biz/console)を開きます。
 
-ない場合はプロバイダを作ります。
+次に、ない場合はプロバイダを作ります。
 ![](https://github.com/nakasyou/zenn-content/assets/79000684/7caefc6e-fdd9-4c73-8796-ec9d4f2f7f64)
-プロバイダの「チャネル設定」から「新規チャネル作成」
+↑「作成」を押す
+
+プロバイダの「チャネル設定」から「新規チャネル作成」、「Messaging API」をクリック
 ![](https://github.com/nakasyou/zenn-content/assets/79000684/a758f5de-e68e-41b2-812c-081434dd77f7)
-「Messaging API」を開きます。
 
 必要事項を入力し、「作成」です。
 
 すると、そのチャネルの設定画面が表示されます。
-![](https://github.com/nakasyou/zenn-content/assets/79000684/ccc0e1f5-38e1-4b06-ba85-81aba881b59d)
+
 WebHook URLに、Deno DeployのWebHook URLを入力します。例えば、プロジェクト名がexampleの場合、`https://example.deno.dev/webhook`です。
+![](https://github.com/nakasyou/zenn-content/assets/79000684/ccc0e1f5-38e1-4b06-ba85-81aba881b59d)
 すると下に「WebHookを有効」というスイッチが出てくるので、オンにします。
 「検証」を押すと、そのURLが正しいかが検証されます。
 
