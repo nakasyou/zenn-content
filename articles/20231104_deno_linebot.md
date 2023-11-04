@@ -51,9 +51,7 @@ Deno.serve(app.fetch)
 ```json
 {
   "imports": {
-    "hono": "https://deno.land/x/hono@v3.9.2/mod.ts",
-    "@hono/zod-validator": "https://esm.sh/@hono/zod-validator@0.1.11",
-    "zod": "https://esm.sh/zod@3.22.4"
+    "hono": "https://deno.land/x/hono@v3.9.2/mod.ts"
   },
   "tasks": {
     "dev": "deno run --allow-net --watch main.ts",
@@ -112,8 +110,7 @@ app.post('/webhook', async c => {
   return c.text('OK')
 })
 ```
-Zodを使ってバリテーションをします。
-
+「あ」と言われたら、「あなたはさっき、あと言った！」と返信してくるようにしました。
 ### Deno Deployにあげる
 Deno Deployでデプロイします。
 詳細なやり方は割愛します。
@@ -142,8 +139,19 @@ WebHook URLに、Deno DeployのWebHook URLを入力します。例えば、プ�
 ![](https://github.com/nakasyou/zenn-content/assets/79000684/b699f89d-59ec-4918-b92b-5aa929984586)
 
 これで完璧です！あとは、「Messaging API 設定」からQRコードを読み込みましょう！
-![IMG_2060](https://github.com/nakasyou/zenn-content/assets/79000684/7c455c81-0cc5-4d1b-9f22-3c078cb11439)
+![](https://github.com/nakasyou/zenn-content/assets/79000684/7c455c81-0cc5-4d1b-9f22-3c078cb11439)
 
+## 試す！
+対話してみます！すると、しっかりプログラムの通りになります！
 ![1699067525194](https://github.com/nakasyou/zenn-content/assets/79000684/91e801ae-e37a-44b3-89d9-e0ccfde9abba)
+
+## 最後に
+ソースコードは
+https://github.com/nakasyou/deno-line-bot-example
+にあります。
+
+Deno Deployを用いて、簡単にLINE Botを作れます！
+プログラムを変えれば、条件によって応答を変えたり、天気を表示したり... 活用の幅が広がります。
+皆さんもぜひ、試してみたください！
 
 
