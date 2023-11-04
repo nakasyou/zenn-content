@@ -144,4 +144,6 @@ WebHook URLに、Deno DeployのWebHook URLを入力します。例えば、プ�
 これで完璧です！あとは、「Messaging API 設定」からQRコードを読み込みましょう！
 ![IMG_2060](https://github.com/nakasyou/zenn-content/assets/79000684/7c455c81-0cc5-4d1b-9f22-3c078cb11439)
 
+![1699067525194](https://github.com/nakasyou/zenn-content/assets/79000684/91e801ae-e37a-44b3-89d9-e0ccfde9abba)
+
 
