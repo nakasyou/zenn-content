@@ -26,7 +26,7 @@ https://docs.deno.com/runtime/manual/getting_started/installation
 https://developers.line.biz/ja/
 で、ログインまたは登録をしましょう。公式アカウントを作るときに使います。
 
-## 1. バックエンドを書く
+## バックエンドを書く
 ### サーバーを作成する
 LINE Botは、WebHookサーバーを使って作ることができます。そのバックエンドを書きましょう！
 今回は、[Hono](https://hono.dev)というhttpサーバーを作成するライブラリを使います。
@@ -113,7 +113,8 @@ app.post('/webhook', async c => {
 「あ」と言われたら、「あなたはさっき、あと言った！」と返信してくるようにしました。
 ### Deno Deployにあげる
 Deno Deployでデプロイします。
-詳細なやり方は割愛します。
+「Deno Deployの基本的な使い方がわかる」が、対象読者に含まれているので、詳細なやり方は割愛します。
+
 ## LINE公式アカウントの作成
 公式アカウントを作ります。
 
