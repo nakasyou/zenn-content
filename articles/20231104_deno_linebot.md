@@ -15,7 +15,7 @@ LiberlunaのLINE公式アカウントは、Denoで動いています。DenoでLI
 - LINE BotをDenoで作ってみたい人
 - Deno Deployの基本的な使い方がわかっている人
 
-## 0. 事前準備
+## 事前準備
 ### Denoのインストール
 Denoがインストールされていない場合は、インストールしましょう。
 
