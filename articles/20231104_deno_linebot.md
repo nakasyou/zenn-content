@@ -86,10 +86,10 @@ const WebHookSchema = z.object({
     replyToken: z.string()
   }))
 })
-app.post('/webbook', zValidator('json', WebHookSchema), await c => {
+app.post('/webbook', zValidator('json', WebHookSchema), async c => {
   const data = c.req.valid('json') // WebHookデータ
 
-  const replys: Promise<Response> = []
+  const replys: Promise<Response>[] = []
   for (const event of data.events) {
     // イベントでループ
     if (event.type !== 'message') return // メッセージでないイベントは無視
