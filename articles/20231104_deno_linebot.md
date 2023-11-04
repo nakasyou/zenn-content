@@ -77,17 +77,8 @@ URLが表示されるはずなので、`/webhook`にcURLしてみましょう。
 `/webhook`にアクセスされたときの挙動を変更します。
 
 ```ts
-import { z } from 'zod'
-import { zValidator } from '@hono/zod-validator'
-
-const WebHookSchema = z.object({
-  events: z.array(z.object({
-    type: z.string(),
-    replyToken: z.string()
-  }))
-})
-app.post('/webbook', zValidator('json', WebHookSchema), async c => {
-  const data = c.req.valid('json') // WebHookデータ
+app.post('/webhook', async c => {
+  const data = await c.req.json() // WebHookデータ
 
   const replys: Promise<Response>[] = []
   for (const event of data.events) {
@@ -111,12 +102,14 @@ app.post('/webbook', zValidator('json', WebHookSchema), async c => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "Authorization": "Bearer " + Deno.env.get("line_token"),
+        "Authorization": "Bearer " + Deno.env.get("LINE_TOKEN"),
       },
       "body": JSON.stringify(replyData),
     })) // リプライ
   }
   await Promise.all(replys) // 全てのリプライ完了を待つ
+
+  return c.text('OK')
 })
 ```
 Zodを使ってバリテーションをします。
@@ -145,5 +138,10 @@ WebHook URLに、Deno DeployのWebHook URLを入力します。例えば、プ�
 「チャンネルアクセストークン(長期)」を発行して、コピーします。
 ![](https://github.com/nakasyou/zenn-content/assets/79000684/49416242-bc32-42c5-9215-eb16ec147621)
 
-それを、Deno Deployのプロジェクトの
+それを、Deno Deployのプロジェクトの環境変数に入れましょう！
+![](https://github.com/nakasyou/zenn-content/assets/79000684/b699f89d-59ec-4918-b92b-5aa929984586)
+
+これで完璧です！あとは、「Messaging API 設定」からQRコードを読み込みましょう！
+![IMG_2060](https://github.com/nakasyou/zenn-content/assets/79000684/7c455c81-0cc5-4d1b-9f22-3c078cb11439)
+
 
