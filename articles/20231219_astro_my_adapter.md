@@ -17,3 +17,18 @@ Astroは、SSR/SSGができて、NodeはCloudFlare Workers、Denoなどの好き
 Adapterは、前述した通り、Astroのサーバーをいろいろなランタイムで動かすためのものです。
 言い換えれば、Astroとランタイムの間に入る「クッション」のような存在です。
 
+### Adapterの必要性
+ランタイムによってある行動をしたい場合のコードやAPIが異なります。
+例えば、サーバーを起動する処理の場合、Denoは`Deno.serve`、Nodeは`http`モジュールなど、Cloudflare Workersは`addEventListener('fetch')`というふうに、ランタイムごとに違います。
+そのため、単純に同じプログラムだと異なるランタイムで動かせないことがあるのです。
+![Image](https://github.com/nakasyou/zenn-content/assets/79000684/20b01868-cc49-4d40-8581-5ff5b72ddeb1)
+
+そこで、Adapterの登場です。
+Adapterは、下の図のようにランタイムの差を吸収してくれるのです。
+![Image](https://github.com/nakasyou/zenn-content/assets/79000684/dd959393-4af9-4a9d-ae27-39514298a9be)
+
+これがAstroのAdapterの役割です。
+
+### Adapterの仕組み
+
+
