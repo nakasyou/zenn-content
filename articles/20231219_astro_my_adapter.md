@@ -132,17 +132,23 @@ export const bunAdapter = (): AstroIntegration => {
 
 #### Integrationの登録
 次に、このIntegrationをAstroに認識させます。
+
+また、今回制作するAdapterは画像最適化は行わないため、無効にしておきます。
 ```diff ts:astro.config.mjs
-  import { defineConfig } from 'astro/config';
+- import { defineConfig } from 'astro/config';
++ import { defineConfig, passthroughImageService } from 'astro/config';
 + import { bunAdapter } from './src/integrations/bun-adapter`
 
   // https://astro.build/config
   export default defineConfig({
     output: 'server',
-+   adapter: bunAdapter()
++   adapter: bunAdapter(),
++   image: {
+      service: passthroughImageService()
++   }
   });
 ```
-完璧です。importして受け渡してるだけです。
+完璧です。Adapterの方は、importして受け渡してるだけです。
 
 #### Adapter本体
 では、`serverEntrypoint`であるAdapter本体の`src/integrations/bun-adapter/index.ts`を書きましょう。
@@ -174,7 +180,7 @@ bun ./dist/server/entry.mjs
 ![IMG_2301](https://github.com/nakasyou/zenn-content/assets/79000684/83206782-680c-4089-9da6-d248829c74c9)
 こんな感じになるはずです。そしたら成功です。
 
-「あれ？サーバー起動しないの？」って思う方もいらっしゃると思いますが、Adapterにはサーバー起動のコードが含まれていないのでそうなります。
+「あれ？サーバー起動しないの？」って思う方がいらっしゃると思いますが、Adapterにはサーバー起動のコードが含まれていないのでそうなります。
 
 :::message
 Adapterのコードを編集して実行するときは、毎回ビルドしなければいけません。
@@ -280,13 +286,23 @@ export function start(manifest: SSRManifest) {
 しっかりfaviconもあるはずです。
 
 ## Hono用Adapterを作る
+:::message
+この節は、Honoについてある程度知っていないと分かりにくいかもしれません。
+:::
+
 次に、Hono用Adapterを作ってみましょう。
 Honoは、いろんなランタイムで動く高速なWebフレームワークです。
 
-BunのAdapterをベースにしたいので、`cp -r src/integrations/bun-adapter src/integrations/hono-adapter`とでもしましょう。
-そして、`bunAdapter`を`honoAdapter`にし、`astro.config.mjs`も同じようにimport先パスを変えます。
-
 https://hono.dev/
+
+
+BunのAdapterをベースにしたいので、`cp -r src/integrations/bun-adapter src/integrations/hono-adapter`とでもしましょう。
+`astro.config.mjs`も同じようにimport先パスを変えます。
+そして、
+- `bunAdapter` → `honoAdapter`
+- `bun-adapter` → `hono-adapter`
+
+のようにintegrationsのコード内の名前を変更するといいでしょう。
 
 目標はこんな感じです。
 ```ts
@@ -388,4 +404,9 @@ app.use('/*', astroApp()) // m
 
 Bun.serve(app)
 ```
-のようにして実行すると、動きます。
+のようにして実行すると、完成です！！
+
+## まとめ
+- Astroは、Adapterを使用することでいろいろなランタイムで動かせる
+- AstroのAdapterは、自作できる
+- `createExports`を利用することで、外部のコードで使えるようなものを作れる
