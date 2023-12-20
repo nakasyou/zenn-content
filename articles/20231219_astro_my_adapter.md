@@ -171,4 +171,131 @@ export function start (manifest: SSRManifest) {
 ```shell
 bun ./dist/server/entry.mjs
 ```
+![IMG_2301](https://github.com/nakasyou/zenn-content/assets/79000684/83206782-680c-4089-9da6-d248829c74c9)
+こんな感じになるはずです。そしたら成功です。
 
+「あれ？サーバー起動しないの？」って思う方もいらっしゃると思いますが、Adapterにはサーバー起動のコードが含まれていないのでそうなります。
+
+:::message
+Adapterのコードを編集して実行するときは、毎回ビルドしなければいけません。
+:::
+
+では、実際にサーバーを起動するコードを書きましょう。
+
+`manifest`から`Bun.serve`に繋げるのです。
+
+しかし、`manifest`は前述の通り非常に複雑です。なので、`astro/app`というモジュールが存在します。
+```ts
+import { App } from 'astro/app'
+
+const app = new App(manifest)
+```
+のようにして初期化させます。
+このAppというのが便利なのです。
+
+Appは、`manifest`をRequest/Responseのインターフェースにしてくれるのです。
+
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+import { App } from 'astro/app'
+
+export function start (manifest: SSRManifest) {
+  const app = new App(manifest)
+
+  app.render(new Request('https://example.com/')).then(console.log)
+}
+```
+のように`app.render`を使うと、Responseが出力されるはずです。
+
+
+では、これをBun.serveで使います。
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+import { App } from 'astro/app'
+
+export function start (manifest: SSRManifest) {
+  const app = new App(manifest)
+
+  Bun.serve({
+    fetch: req => app.render(req)
+  })
+  console.log('Started server: http://localhost:3000')
+}
+```
+サーバーも動いてるしこれで完成！
+と思いきや、これだとしっかり動きません。
+
+その証拠の一つとして、faviconが表示されないはずです。(されているとしたらキャッシュの影響)
+静的Assetsをサポートしていないためです。
+
+manifestの説明に書いた通り、manifestには外部Assetsが含まれていません。
+
+そのため、静的ファイルにはアクセスできないのです。これを解決するために、静的ファイルについてのコードを書きます。
+`manifest.assets`には静的ファイルのパスのSetが含まれます。
+これを用いて静的ファイルを配信します。
+
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+import { App } from 'astro/app'
+import path from 'node:path'
+
+export function start(manifest: SSRManifest) {
+  const app = new App(manifest)
+
+  const getAssetFuncs: Record<string, (() => Promise<Response>) | undefined> = {} // pathnameからファイルデータを出す関数たち
+
+  for (const asset of manifest.assets) {
+    const filePath = path.join(
+      import.meta.dir,
+      '../client',
+      asset.replace(/^\//, '') // `/favicon.svg`を`favicon.svg`に
+    ) // ファイルパスを求める
+
+    getAssetFuncs[asset] = async () => {
+      const file = Bun.file(filePath)
+
+      return new Response(file, {
+        headers: {
+          "Content-Type": file.type // Mime Typeを指定
+        }
+      })
+    }
+  }
+  Bun.serve({
+    fetch: async req => {
+      const pathname = new URL(req.url).pathname // pathnameを取得
+      const getAsset = getAssetFuncs[pathname]
+      if (getAsset) {
+        // ファイルがある
+        return getAsset()
+      }
+      return await app.render(req)
+    },
+    port: 3001
+  })
+  console.log('Started server: http://localhost:3000')
+}
+```
+こんな感じにしたら大体完成です！！！
+しっかりfaviconもあるはずです。
+
+## Hono用Adapterを作る
+次に、Hono用Adapterを作ってみましょう。
+Honoは、いろんなランタイムで動く高速なWebフレームワークです。
+
+https://hono.dev/
+
+目標はこんな感じです。
+```ts
+import { Hono } from 'hono'
+import { astroApp } from '../dist/server/entry.mjs'
+
+const app = new Hono()
+
+app.use('/*', astroApp())
+
+Bun.serve(app)
+```
+
+実現するためには、astroAppという関数の**export**が必要なのですが、これは実現できるのでしょうか？
+できます。Bunのアダプタでは`start`をつかっていましたが、今回は`createExports`を使います。
