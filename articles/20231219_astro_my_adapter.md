@@ -13,7 +13,7 @@ Astroは、SSR/SSGができて、NodeはCloudFlare Workers、Denoなどの好き
 その「好きなランタイムで動かせる」を実現しているのが、AstroのAdapterです。
 この記事では、AstroのAdapterの仕組みを調べて、Adapterを作っていきます。
 
-## Adapterの仕組み
+## Adapterについて詳しく
 Adapterは、前述した通り、Astroのサーバーをいろいろなランタイムで動かすためのものです。
 言い換えれば、Astroとランタイムの間に入る「クッション」のような存在です。
 
@@ -29,8 +29,8 @@ Adapterは、下の図のようにランタイムの差を吸収してくれる�
 
 これがAstroのAdapterの役割です。
 
-### Adapterの構造
-Adapterの構造、仕組みを解説します。
+### Adapter
+Adapterの構造を解説します。
 
 Astroは、ランタイムごとのAPIに依存しないコードをビルド時に生成します。`Deno.xxx`などを使わない、ECMAScriptなコードです。
 このコードの役割の一つとして、`manifest`よ呼ばれるオブジェクトを生成するというものがあります。
@@ -39,5 +39,52 @@ Astroは、ランタイムごとのAPIに依存しないコードをビルド時
 
 https://github.com/withastro/astro/blob/7ae4928f303720d3b2f611474fc08d3b96c2e4af/packages/astro/src/core/app/types.ta
 
-このオブジェクトには、画像などの外部アセットデータ以外の情報が詰まっています。
-このオブジェクトを利用して、各ランタイム用にAdapterを書けるわけです。
+manifestには、画像などの外部アセットデータ以外の情報が詰まっています。
+manifestを利用して、各ランタイム用にAdapterを書けるわけです。
+
+実際の`manifest`は以下のようになっています。
+![1](https://github.com/nakasyou/zenn-content/assets/79000684/a2ddbbd5-c45a-464b-9eaa-176ec1a661c2)
+![2](https://github.com/nakasyou/zenn-content/assets/79000684/309333ea-8135-4d97-b9dd-42b0cacaa8ef)
+かなり複雑な構造をしていますね。
+
+## Adapterを作ってみる
+早速、Adapterを作ってみましょう！
+
+### Bun用Adapterの作成
+[Astro公式は多くのAdapter](https://docs.astro.build/ja/guides/integrations-guide/)を作っていて、そのおかげでDenoなどで動かせますが、Bun用のアダプターはありません！
+[Bun](https://bun.sh)は、高速なJavaScriptランタイムです。
+
+ないなら作ってしまいましょう！
+
+#### BunのランタイムAPIの理解
+AdapterはAstroとランタイムAPIを繋げるクッションなので、まずBunのランタイムAPIを簡単に理解しましょう！
+
+まず、Bunのサーバー起動は次のようになっています。
+```ts
+Bun.serve({
+  fetch: async (req: Request): Promise<Response> => {
+    return new Response(`Hello, ${new URL(req.url).pathname}`)
+  }
+})
+```
+これは、アクセスすると、`Hello, <pathname>`と返ってくるコードです。
+`Bun.serve`に`Request`を受け取り`Response`(PromiseでもOK)を返す`fetch`関数を渡す簡単なAPIです。
+
+また、Bunでのファイル読み込みは
+```ts
+const foo = Bun.file('foo.txt')
+
+foo.size // サイズ
+foo.type // MIME Type
+
+await foo.arrayBuffer(); // ArrayBuffer取得
+```
+のような簡単なAPIになっています。
+
+#### 作ってみる！
+まず、`create-astro`を使用してAstroプロジェクトを作成します。
+```shell
+bun create astro
+```
+
+次に、
