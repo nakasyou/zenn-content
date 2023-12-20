@@ -37,6 +37,5 @@ Astroは、ランタイムごとのAPIに依存しないコードをビルド時
 
 型情報は以下のようです。
 
-https://github.com/withastro/astro/blob/7ae4928f303720d3b2f611474fc08d3b96c2e4af/packages/astro/src/core/app/types.ts#L36C1-L36C1
-
+https://github.com/withastro/astro/blob/7ae4928f303720d3b2f611474fc08d3b96c2e4af/packages/astro/src/core/app/types.ts#L1
 
