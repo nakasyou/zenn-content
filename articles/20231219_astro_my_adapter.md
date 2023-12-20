@@ -337,7 +337,7 @@ export function createExports(manifest: SSRManifest) {
       })
     }
   }
-  const astroAppMiddleware = async (req, next) => {
+  const astroAppMiddleware = () => async (req, next) => {
     const pathname = new URL(req.url).pathname // pathnameを取得
     const getAsset = getAssetFuncs[pathname]
     if (getAsset) {
