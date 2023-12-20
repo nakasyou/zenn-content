@@ -35,7 +35,9 @@ Adapterの構造、仕組みを解説します。
 Astroは、ランタイムごとのAPIに依存しないコードをビルド時に生成します。`Deno.xxx`などを使わない、ECMAScriptなコードです。
 このコードの役割の一つとして、`manifest`よ呼ばれるオブジェクトを生成するというものがあります。
 
-型情報は以下のようです。
+型情報は以下の`SSRManifest`のようです。
 
-https://github.com/withastro/astro/blob/7ae4928f303720d3b2f611474fc08d3b96c2e4af/packages/astro/src/core/app/types.ts#L1
+https://github.com/withastro/astro/blob/7ae4928f303720d3b2f611474fc08d3b96c2e4af/packages/astro/src/core/app/types.ta
 
+このオブジェクトには、画像などの外部アセットデータ以外の情報が詰まっています。
+このオブジェクトを利用して、各ランタイム用にAdapterを書けるわけです。
