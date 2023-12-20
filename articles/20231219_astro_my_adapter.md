@@ -338,7 +338,7 @@ export function createExports(manifest: SSRManifest) {
     }
   }
   const astroAppMiddleware = () => async (c, next) => {
-    const pathname = c.req.pathname // pathnameを取得
+    const pathname = c.req.path // pathnameを取得
     const getAsset = getAssetFuncs[pathname]
     if (getAsset) {
       // ファイルがある
