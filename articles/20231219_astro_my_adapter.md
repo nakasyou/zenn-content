@@ -400,7 +400,8 @@ import { astroAppMiddleware } from '../dist/server/entry.mjs'
 
 const app = new Hono()
 
-app.use('/*', astroApp()) // m
+app.use('/*', astroAppMiddleware())
+
 
 Bun.serve(app)
 ```
@@ -410,3 +411,6 @@ Bun.serve(app)
 - Astroは、Adapterを使用することでいろいろなランタイムで動かせる
 - AstroのAdapterは、自作できる
 - `createExports`を利用することで、外部のコードで使えるようなものを作れる
+
+今回作ったサンプルはGitHubのあげてあります...
+https://github.com/nakasyou/astro-adapter-demo
