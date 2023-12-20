@@ -50,13 +50,13 @@ manifestを利用して、各ランタイム用にAdapterを書けるわけで�
 ## Adapterを作ってみる
 早速、Adapterを作ってみましょう！
 
-### Bun用Adapterの作成
+## Bun用Adapterの作成
 [Astro公式は多くのAdapter](https://docs.astro.build/ja/guides/integrations-guide/)を作っていて、そのおかげでDenoなどで動かせますが、Bun用のアダプターはありません！
 [Bun](https://bun.sh)は、高速なJavaScriptランタイムです。
 
 ないなら作ってしまいましょう！
 
-#### BunのランタイムAPIの理解
+### BunのランタイムAPIの理解
 AdapterはAstroとランタイムAPIを繋げるクッションなので、まずBunのランタイムAPIを簡単に理解しましょう！
 
 まず、Bunのサーバー起動は次のようになっています。
@@ -77,14 +77,98 @@ const foo = Bun.file('foo.txt')
 foo.size // サイズ
 foo.type // MIME Type
 
-await foo.arrayBuffer(); // ArrayBuffer取得
+await foo.arrayBuffer() // ArrayBuffer取得
 ```
 のような簡単なAPIになっています。
 
-#### 作ってみる！
+### プロジェクトを作る
 まず、`create-astro`を使用してAstroプロジェクトを作成します。
 ```shell
 bun create astro
 ```
 
-次に、
+次に、`astro.config.mjs`をサーバーモードに対応させましょう。
+```diff ts:astro.config.mjs
+  import { defineConfig } from 'astro/config';
+
+  // https://astro.build/config
+  export default defineConfig({
++   output: 'server'
+  });
+```
+
+### Adapterをつくる
+次に、Adapterを作りましょう！
+
+#### Integration
+`src/integrations/bun-adapter/index.ts`とでもするファイルを作ってください。
+
+```ts:bun-adapter/index.ts
+import type { AstroIntegration } from 'astro'
+
+export const bunAdapter = (): AstroIntegration => {
+  return {
+    name: 'bun-adapter',
+    hooks: {
+      'astro:config:done': ({ setAdapter }) => {
+         setAdapter({
+           name: 'bun-adapter',
+           serverEntrypoint: './src/integrations/bun-adapter/index.ts',
+           supportedAstroFeatures: { staticOutput: 'stable' }
+         })
+      }
+    }
+  }
+}
+```
+解説します。このコードは、Astro Integrationを作成する関数です。Integrationは、Astroのプラグインシステムのようなものです。
+
+`name`は、Integrationの名前、`hooks`は、Astroが呼ぶイベントを代入します。
+`astro:config:done`は、configがdoneしたときに呼ばれると思います(そのまま)
+
+このイベントのハンドラーは、`setAdapter`という関数をAstroから受け取り、それを呼び出しAdapterを登録しています。
+
+`name`にはAdapterの名前、`serverEntrypoint`はAdapter本体のパス、`supportedAstroFeatures`はAdapterが対応している機能が代入されます。
+
+#### Integrationの登録
+次に、このIntegrationをAstroに認識させます。
+```diff ts:astro.config.mjs
+  import { defineConfig } from 'astro/config';
++ import { bunAdapter } from './src/integrations/bun-adapter`
+
+  // https://astro.build/config
+  export default defineConfig({
+    output: 'server',
++   adapter: bunAdapter()
+  });
+```
+完璧です。importして受け渡してるだけです。
+
+#### Adapter本体
+では、`serverEntrypoint`であるAdapter本体の`src/integrations/bun-adapter/index.ts`を書きましょう。
+
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+
+export function start (manifest: SSRManifest) {
+  // サーバ起動時のコードを書いていく...
+}
+```
+出ました前述の`manifest`です。`manifest`を受け取る`start`関数をエクスポートしています。
+
+この状態で
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+
+export function start (manifest: SSRManifest) {
+  console.log('Hello world!!')
+}
+```
+とやって`astro build`(`bun run build`)でビルドします。
+すると、`dist`ディレクトリが作成されます。
+
+`dist/server/entry.mjs`はサーバー起動のエントリーポイントのコードなので、これを実行してみてください。
+```shell
+bun ./dist/server/entry.mjs
+```
+
