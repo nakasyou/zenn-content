@@ -283,19 +283,109 @@ export function start(manifest: SSRManifest) {
 次に、Hono用Adapterを作ってみましょう。
 Honoは、いろんなランタイムで動く高速なWebフレームワークです。
 
+BunのAdapterをベースにしたいので、`cp -r src/integrations/bun-adapter src/integrations/hono-adapter`とでもしましょう。
+そして、`bunAdapter`を`honoAdapter`にし、`astro.config.mjs`も同じようにimport先パスを変えます。
+
 https://hono.dev/
 
 目標はこんな感じです。
 ```ts
 import { Hono } from 'hono'
-import { astroApp } from '../dist/server/entry.mjs'
+import { astroAppMiddleware } from '../dist/server/entry.mjs'
 
 const app = new Hono()
 
-app.use('/*', astroApp())
+app.use('/*', astroApp()) // m
 
 Bun.serve(app)
 ```
 
-実現するためには、astroAppという関数の**export**が必要なのですが、これは実現できるのでしょうか？
+実現するためには、astroAppMiddlewareというミドルウェアの**export**が必要なのですが、これは実現できるのでしょうか？
 できます。Bunのアダプタでは`start`をつかっていましたが、今回は`createExports`を使います。
+
+```diff ts:bun-adapter/server.ts
+- export function start (manifest: SSRManifest) {
++ export function createExports (manifest: SSRManifest) {
+```
+
+と`start`を`createExports`に置き換えて、
+
+```ts:bun-adapter/server.ts
+import type { SSRManifest } from 'astro'
+import { App } from 'astro/app'
+import path from 'node:path'
+
+export function createExports(manifest: SSRManifest) {
+  const app = new App(manifest)
+
+  const getAssetFuncs: Record<string, (() => Promise<Response>) | undefined> = {} // pathnameからファイルデータを出す関数たち
+
+  for (const asset of manifest.assets) {
+    const filePath = path.join(
+      import.meta.dir,
+      '../client',
+      asset.replace(/^\//, '') // `/favicon.svg`を`favicon.svg`に
+    ) // ファイルパスを求める
+
+    getAssetFuncs[asset] = async () => {
+      const file = Bun.file(filePath)
+
+      return new Response(file, {
+        headers: {
+          "Content-Type": file.type // Mime Typeを指定
+        }
+      })
+    }
+  }
+  const astroAppMiddleware = async (req, next) => {
+    const pathname = new URL(req.url).pathname // pathnameを取得
+    const getAsset = getAssetFuncs[pathname]
+    if (getAsset) {
+      // ファイルがある
+      return getAsset()
+    }
+    const res = await app.render(req)
+    if (res.status === 404) {
+      await next() // 404の場合middlewareをスキップ
+    }
+    return res
+  }
+  return { astroAppMiddleware }
+}
+```
+のように、HonoのミドルウェアをExportするのです。
+
+そして、`src/integrations/hono-adapter/index.ts`に「この関数をExportするよー」ということを伝えます。
+```diff ts:src/integrations/hono-adapter/index.ts
+  import type { AstroIntegration } from 'astro'
+
+  export const bunAdapter = (): AstroIntegration => {
+    return {
+      name: 'bun-adapter',
+      hooks: {
+        'astro:config:done': ({ setAdapter }) => {
+           setAdapter({
+             name: 'bun-adapter',
+             serverEntrypoint: './src/integrations/bun-adapter/index.ts',
+             supportedAstroFeatures: { staticOutput: 'stable' },
++            exports: ['astroAppMiddleware']
+           })
+        }
+      }
+    }
+  }
+```
+これで、ビルドして、
+
+`scripts/hono.ts`を
+```ts:scripts/hono.ts
+import { Hono } from 'hono'
+import { astroAppMiddleware } from '../dist/server/entry.mjs'
+
+const app = new Hono()
+
+app.use('/*', astroApp()) // m
+
+Bun.serve(app)
+```
+のようにして実行すると、動きます。
