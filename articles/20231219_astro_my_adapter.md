@@ -344,7 +344,7 @@ export function createExports(manifest: SSRManifest) {
       // ファイルがある
       return getAsset()
     }
-    const res = await app.render(req)
+    const res = await app.render(c.req)
     if (res.status === 404) {
       await next() // 404の場合middlewareをスキップ
     }
