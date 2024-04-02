@@ -67,7 +67,17 @@ DenoやBunは、Node.jsよりもWeb標準に忠実です。
 すごいですね。DenoやBunはNode.jsよりWeb標準に忠実です。
 
 #### ESM
-DenoおよびBunは、デフォルトでESMを使用しています。
+DenoおよびBun^[https://bun.sh/docs/runtime/modules#module-systems]は、デフォルトでESMを使用しています。
 モジュールシステムとして、CommonJS ModulesよりESMを使うことが多い現在で、嬉しいですね。
+
+***
+Node.jsをやめたくなってきましたか？
+
+## DenoとBun
+DenoとBunのメリットについて説明しました。次は、この2つの使い分けについてです。
+DenoとBunを使い分けることで、Node.jsをやめることができます。
+
+私なりの使い分け方は、**1から作るならDeno**、**Node.jsのプロジェクトを使うならBun**です。
+
 
 
