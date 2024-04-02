@@ -54,7 +54,7 @@ DenoやBunは、Node.jsよりもWeb標準に忠実です。
 - 🙅‍♀️ 使えない
 
 として、こんな感じです(Node.js 20, Deno 1.42, Bun 1.1):
-| API | Node.js | Deno | Bun |
+| API | Node.js | Deno | Bun[^https://bun.sh/docs/runtime/web-apis] |
 | --- | --- | ---| ---|
 | Web Crypto API (`crypto`) | 🔼 | ⭕️ | ⭕️ |
 | `Request`/`Response` | 🔼 | ⭕️ | ⭕️ |
@@ -78,6 +78,58 @@ DenoとBunのメリットについて説明しました。次は、この2つの
 DenoとBunを使い分けることで、Node.jsをやめることができます。
 
 私なりの使い分け方は、**1から作るならDeno**、**Node.jsのプロジェクトを使うならBun**です。
+この2つの使い分けで、Node.jsを代替することができます。
+
+### Bunの方がNode.jsプロジェクトに適している理由
+#### DenoとBunのnpmインストール速度
+これは、Bunの方が速いです。実験してみました:
+
+まず、DenoとBunのキャッシュを削除します。
+```shell
+rm -rf ~/.bun/install
+rm -rf ~/.cache/deno
+```
+次に、Astroをインストールしてみます。
+```shell
+bun add astro
+deno cache astro
+```
+の速度を比較するのです。
+
+次のようなBunコードを使います。
+
+```ts
+await Bun.$`rm -rf node_modules`
+// Bun
+const bunStarted = performance.now()
+await Bun.$`bun add astro`
+const bunResult = performance.now() - bunStarted
 
 
+await Bun.$`rm -rf node_modules`
 
+// Deno
+const denoStarted = performance.now()
+await Bun.$`deno cache npm:astro`
+const denoResult = performance.now() - denoStarted
+
+console.log(`Bun: ${bunResult} ms`)
+console.log(`Deno: ${denoResult} ms`)
+```
+こうなりました:
+![IMG_2853](https://github.com/nakasyou/zenn-content/assets/79000684/2e6ead0e-4433-4213-a775-732f7b819d88)
+
+npmインストール速度において、Bunは高速です。
+
+#### Node.js の仕組みの問題
+- Denoは、基本的に`package.json`を使いませんが^[使うことも可能]、Bunでは使います。
+- Denoは、基本的に`node_modules`を使いませんが^[生成することも可能]、Bunでは使います。
+- Denoは、基本的に`.ts`などの拡張子をつけてimportしますが^[unstableなフラグで省略可能]、Bunでは省略可能です。
+
+***
+このように、DenoはもともとNode.jsの反省を踏まえて作られた、新しいランタイムを目指していたのに対し、BunはNode.jsとの互換性を意識して作られています。
+
+そのため、Node.js用に作られたViteやNext.jsのようなフレームワークを使うときは、高速な代替であるBunを使うことがおすすめです。
+
+一方、バックエンドやコンピュータ中心などのものを作ったりするときは、Denoがおすすめです。
+Pythonのようなイメージで、手軽に使えて、CLIも作れたりするランタイムです。
