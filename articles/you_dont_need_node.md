@@ -61,7 +61,7 @@ await writeFile('./a.txt', Math.random().toString())
 速いですね。
 [Bunのトップページ](https://bun.sh)には、Node/Deno/Bunのベンチマークが載っています。
 
-サーバーなど、NodeよりDeno/Bunが高速です。
+Webサーバーの応答速度などの項目があり、NodeよりDeno/Bunが高速です。
 
 ### Web標準
 DenoやBunは、Node.jsよりもWeb標準に忠実です。
