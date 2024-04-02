@@ -45,4 +45,29 @@ DenoやBunは実行速度が速いです。
 DenoやBunは、Node.jsよりもWeb標準に忠実です。
 
 例えば`fetch`。JavaScriptでデータを取得するのに現在ではスタンダードですよね？
-これ、Node.jsで使えないのです。
+これ、Node.jsではExperimentalなAPIなのです。少し前までは、`node-fetch`などのPolyfillを使う必要がありました。
+しかし、DenoやBunでは普通に使えちゃいます。
+
+そのほかにも
+- ⭕️ 使える
+- 🔼 unstable/experimental
+- 🙅‍♀️ 使えない
+
+として、こんな感じです(Node.js 20, Deno 1.42, Bun 1.1):
+| API | Node.js | Deno | Bun |
+| --- | --- | ---| ---|
+| Web Crypto API (`crypto`) | 🔼 | ⭕️ | ⭕️ |
+| `Request`/`Response` | 🔼 | ⭕️ | ⭕️ |
+| `FormData` | 🔼 | ⭕️ | ⭕️ |
+| `WebSocket` | 🔼 | ⭕️ | ⭕️ |
+| `ReadableStream`/`WriableStream` | 🔼 | ⭕️ | ⭕️ |
+| `alert`/`prompt`/`confirm` | 🙅‍♀️ | ⭕️ | ⭕️ |
+| Web GPU | 🙅‍♀️ | 🔼 | 🙅‍♀️ |
+
+すごいですね。DenoやBunはNode.jsよりWeb標準に忠実です。
+
+#### ESM
+DenoおよびBunは、デフォルトでESMを使用しています。
+モジュールシステムとして、CommonJS ModulesよりESMを使うことが多い現在で、嬉しいですね。
+
+
