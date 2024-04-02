@@ -76,7 +76,7 @@ DenoやBunは、Node.jsよりもWeb標準に忠実です。
 - 🙅‍♀️ 使えない
 
 として、こんな感じです(Node.js 20, Deno 1.42, Bun 1.1):
-| API | Node.js | Deno | Bun[^https://bun.sh/docs/runtime/web-apis] |
+| API | Node.js^[https://nodejs.org/docs/latest-v20.x/api/] | Deno | Bun^[https://bun.sh/docs/runtime/web-apis] |
 | --- | --- | ---| ---|
 | Web Crypto API (`crypto`) | 🔼 | ⭕️ | ⭕️ |
 | `Request`/`Response` | 🔼 | ⭕️ | ⭕️ |
