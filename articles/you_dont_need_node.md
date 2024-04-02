@@ -5,7 +5,9 @@ type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["javascript", "node.js", "deno", "bun"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: false # 公開設定（falseにすると下書き）
 ---
-Node.jsはいらない場合がある、むしろいらない場合の方が多いかもしれない、という記事です。
+
+Node.jsはいらない場合がある、むしろいらない場合の方が多いかもしれない、
+そしてDenoとBunを使い分けて代替するという記事です。
 
 ## Post Node.js ランタイムの登場
 Node.js のあとにできたランタイムがいくつも登場しています。
@@ -40,6 +42,26 @@ bun main.ts
 
 ### 高速
 DenoやBunは実行速度が速いです。
+
+#### Bunのインストール速度
+Bunの依存関係インストール速度は爆速です。`npm i`の25倍早くなるようです^[https://bun.sh/docs/cli/install]！
+
+#### 実行速度
+次のファイル書き込みコードをNode/Deno/Bunそれぞれのランタイムで試してみます:
+
+```ts
+import { writeFile } from 'node:fs/promises'
+
+await writeFile('./a.txt', Math.random().toString())
+```
+30回平均が、以下のようになりました:
+
+![IMG_2855](https://github.com/nakasyou/zenn-content/assets/79000684/4e0e501b-ee8d-4f7e-91c0-88f32ab1c0f5)
+
+速いですね。
+[Bunのトップページ](https://bun.sh)には、Node/Deno/Bunのベンチマークが載っています。
+
+サーバーなど、NodeよりDeno/Bunが高速です。
 
 ### Web標準
 DenoやBunは、Node.jsよりもWeb標準に忠実です。
@@ -126,7 +148,7 @@ npmインストール速度において、Bunは高速です。
 - Denoは、基本的に`node_modules`を使いませんが^[生成することも可能]、Bunでは使います。
 - Denoは、基本的に`.ts`などの拡張子をつけてimportしますが^[unstableなフラグで省略可能]、Bunでは省略可能です。
 
-### Denoは、シンプル
+### Node.jsプロジェクト以外ならDeno
 Denoは、Node.jsの互換性は意識はしていますが、Nodeとは別のところを行くランタイム、というイメージです。
 
 #### ゼロコンフィグ
@@ -157,9 +179,26 @@ Pythonに似ています。
 
 一方、バックエンドやコンピュータ中心などのものを作ったりするときは、Denoがおすすめです。
 
+## Node.jsプロジェクトをBunにスイッチする
+これは超簡単です。
+Node.jsプロジェクト内で、`npm i`の代わりに`bun i`をして依存関係をインストールするだけです。
+そして、`node main.js`を`bun --bun main.js`、`npm run dev`を`bun --bun run dev`にするだけです。
+
+### 既存のプロジェクトでこっそりBunを使う
+`bun i`は、`package-lock.json`および`yarn.lock`から自動で読み取ってインストールしてくれます。
+```shell
+bun i --no-save
+```
+をすれば、npmやyarnを使っているプロジェクトのうんざりする依存関係インストール時間を短縮できます。
+
+## Node.jsをやめられないところ
+例えば、BunでViteを動かすとき、デフォルトでは、Node.jsが裏で動いたりしています。
+`bunx --bun vite`のように`--bun`を使うこともできますが、SSRでは不安定だったりします。
+
+また、DenoやBunのライブラリをnpmにpublishしたいときは、やっぱり`npm`コマンドが必要なので、Node.jsは必要です。
+
 ## まとめ
-Node.jsのようにプロジェクトを作ったり、Node.jsのフレームワークを使うならBunに変えられる。
-単純にNode.jsをバックエンドのJavaScriptランタイムとして使うならDenoに変えることができます。
+もちろん一概に言えることではないですが、Node.jsのようにプロジェクトを作ったり、Node.jsのフレームワークを使うならBunに変えられます。単純にNode.jsをバックエンドのJavaScriptランタイムとして使うならDenoに変えることができます。
 
 そして、変えることでそれぞれのランタイムのメリットを享受できます。
-みなさんも、Node.jsを、やめてみませんか？
+みなさんも、Node.jsを、代替してみてはどうでしょうか？
