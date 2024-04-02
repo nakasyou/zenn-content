@@ -19,9 +19,30 @@ Node.js のあとにできたランタイムがいくつも登場しています
 ## DenoやBunに変えるメリット
 これがなければNode.jsから変える必要はないと思います。
 
-私は、以下の2つが、2ランタイムに共通して言える大きなメリットだと思います:
+私は、以下の3つが、2ランタイムに共通して言える大きなメリットだと思います:
 - **ネイティブ**TypeScriptサポート
 - 高速
+- Web標準
 
 ### ネイティブTypeScriptサポート
-現在、JavaScriptを記述するときは、
+現在、JavaScriptを記述するときは、TypeScriptを利用することが多いと思います。
+
+Node.jsでTypeScriptを使うとき。`tsc`でコンパイルしてから実行したり、`ts-node`や`tsx`で行っているのではないでしょうか？
+これは不便だと思います。私はNode.jsよりDenoを先に使い始めていたので、Node.jsでTypeScriptを使ったとき、超不便だと思いました。
+
+これがDenoやBunだと要らないのです。
+```sh
+deno run main.ts
+bun main.ts
+```
+で動いちゃいます。
+これは超便利です。
+
+### 高速
+DenoやBunは実行速度が速いです。
+
+### Web標準
+DenoやBunは、Node.jsよりもWeb標準に忠実です。
+
+例えば`fetch`。JavaScriptでデータを取得するのに現在ではスタンダードですよね？
+これ、Node.jsで使えないのです。
