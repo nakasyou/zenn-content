@@ -47,7 +47,11 @@ DenoやBunは実行速度が速いです。
 Bunの依存関係インストール速度は爆速です。`npm i`の25倍早くなるようです^[https://bun.sh/docs/cli/install]！
 
 #### 実行速度
-次のファイル書き込みコードをNode/Deno/Bunそれぞれのランタイムで試してみます:
+次のファイル書き込みコードをNode/Deno/Bunそれぞれのランタイムで試してみます
+
+::::message
+Xで、[@faa0311](https://twitter.com/faa0311)さんから[指摘](https://x.com/faa0311/status/1775596574657388791?s=20)がありましたが、このベンチマークにはランタイムの起動速度が含まれている可能性があります。
+:::
 
 ```ts
 import { writeFile } from 'node:fs/promises'
@@ -62,6 +66,7 @@ await writeFile('./a.txt', Math.random().toString())
 [Bunのトップページ](https://bun.sh)には、Node/Deno/Bunのベンチマークが載っています。
 
 Webサーバーの応答速度などの項目があり、NodeよりDeno/Bunが高速です。
+
 
 ### Web標準
 DenoやBunは、Node.jsよりもWeb標準に忠実です。
