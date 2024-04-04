@@ -198,7 +198,7 @@ bun i --no-save
 
 ## Node.jsをやめられないところ
 例えば、BunでViteを動かすとき、デフォルトでは、Node.jsが裏で動いたりしています。
-`bunx --bun vite`のように`--bun`を使うこともできますが、SSRでは不安定だったりします。
+`bunx --bun vite`のように`--bun`を使い、裏もBunで動かすこともできますが、SSRでは不安定だったりします。
 
 また、DenoやBunのライブラリをnpmにpublishしたいときは、やっぱり`npm`コマンドが必要なので、Node.jsは必要です。
 
