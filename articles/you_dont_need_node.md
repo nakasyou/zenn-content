@@ -93,6 +93,8 @@ DenoやBunは、Node.jsよりもWeb標準に忠実です。
 
 すごいですね。DenoやBunはNode.jsよりWeb標準に忠実です。
 
+しかし、 @oto さんからの指摘もありましたが、Deno/Bunは新興フレームワークのため、単純にDeno/Bunのstable/unstableを、Nodeのstable/unstableと同レベルで比較することは難しいと思います。
+
 #### ESM
 DenoおよびBun^[https://bun.sh/docs/runtime/modules#module-systems]は、デフォルトでESMを使用しています。
 モジュールシステムとして、CommonJS ModulesよりESMを使うことが多い現在で、嬉しいですね。
@@ -201,6 +203,10 @@ bun i --no-save
 `bunx --bun vite`のように`--bun`を使い、裏もBunで動かすこともできますが、SSRでは不安定だったりします。
 
 また、DenoやBunのライブラリをnpmにpublishしたいときは、やっぱり`npm`コマンドが必要なので、Node.jsは必要です。
+
+さらに、DenoやBunはまだまだNodeと比べたら新しいもので、安定性に欠ける可能性があります。
+
+これらの欠点を理解して、スイッチするかどうかを決めるといいかもしれません。
 
 ## まとめ
 もちろん一概に言えることではないですが、Node.jsのようにプロジェクトを作ったり、Node.jsのフレームワークを使うならBunに変えられます。単純にNode.jsをバックエンドのJavaScriptランタイムとして使うならDenoに変えることができます。
