@@ -3,7 +3,7 @@ title: "共有ドライブに誤ってアップロードしたやばいファイ
 emoji: "🗑️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["googledrive", "gas"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 共有ドライブに誤ってアップロードしたやばいファイルを削除する方法です。
 
