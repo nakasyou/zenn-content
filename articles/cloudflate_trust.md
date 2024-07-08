@@ -3,7 +3,7 @@ title: "先生! Cloudflare は信用できます!" # 記事のタイトル
 emoji: "🧑‍🏫" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["cloudflare", "cloudflareworkers", "cloudflarepages"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 Cloudflare Pages 、使ってますか?超便利ですよね。
 文化祭などでも、生徒がサイトを作るときに使用している場合があるそうです。
