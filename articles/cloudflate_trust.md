@@ -44,6 +44,14 @@ GMO は知らないにしても、日本航空はわかるのではないでし�
 ChatGPT の開発元の OpenAI という会社があり、その 49% の資本を Microsoft がもっているんです!
 `${学校で使ってる Microsoft 製品}`」
 
+## 公共性の高い事業を使う
+
+### Cloudflare Waiting Room と コロナワクチン
+全国53自治体(人口規模871万人)のコロナウイルスのワクチン受付に「Cloudflare Waiting Room」というシステムが使われているようです。[^cf_waiting_room]
+
+[@kombumori](https://zenn.dev/kombumori)さんからの[情報](https://zenn.dev/link/comments/29c99388caa4cb)です。ありがとうございます🙇‍♀️
+
+[^cf_waiting_room]: https://classmethod.jp/news/202106-cloudflare/
 ## 統計を使う
 W3Techs によれば、2024年7月現在、すべての Web サイトの 19.1 % が Cloudflare を使っているようです。[^w3techs]
 
@@ -57,7 +65,8 @@ W3Techs によれば、2024年7月現在、すべての Web サイトの 19.1 % 
 
 [このサイト](https://uub.jp/opm/ml_homepage.html)が自治体の Web サイトを集めているので、それを使って確かめます。
 DevTools で表からすべての URL を抽出して、 Deno で `cf-` ヘッダーが含まれているものを抽出しました。
-参考にどうぞ：
+参考にどうぞ、少なくとも 57 の自治体の Web サイトが Cloudflare を使っています：
+:::details 一覧表
 ```
 http://www.city.higashiomi.shiga.jp/
 https://www.city.kusatsu.shiga.jp/
@@ -118,6 +127,8 @@ https://www.town.gokase.miyazaki.jp/
 https://www.city.uji.kyoto.jp/
 https://www.city.shiga-konan.lg.jp/
 ```
+:::
+
 強すぎますね。日本の自治体なので、信用度爆上がりかもしれません。
 国レベルでは発見することができませんでしたので、`*.go.jp`で Cloudflare を使用しているサイトなどあればコメントで教えていただきたいです。
 
