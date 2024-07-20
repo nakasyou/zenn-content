@@ -23,7 +23,7 @@ const merged = new URL('/top', 'https://example.com/profile') // 'https://exampl
 
 ## URL の構造
 JavaScript の `URL` API によって、URL の各部分は以下のように分割できます。
-<img width="634" alt="Untitled 16" src="https://github.com/user-attachments/assets/c01c8772-73c0-4860-aca1-36eef60a6ece">
+![Untitled 16](https://github.com/user-attachments/assets/c01c8772-73c0-4860-aca1-36eef60a6ece)
 これが URL の構造です。
 この前提条件を踏まえて説明していきます。
 
@@ -78,7 +78,7 @@ JavaScript の `URL` API によって、URL の各部分は以下のように分
 
 結合元を`/`で分割した最後の部分以降を、結合先で置き換えます。
 
-<img width="571" alt="Untitled 17" src="https://github.com/user-attachments/assets/23e22a74-0beb-498c-86ed-5b8dc10af911">
+![Untitled 17](https://github.com/user-attachments/assets/23e22a74-0beb-498c-86ed-5b8dc10af911)
 
 POSIX システムとは少し違うので注意です。
 
