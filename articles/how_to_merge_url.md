@@ -96,5 +96,14 @@ POSIX システムとは少し違うので注意です。
 
 同じプロトコルで `<script>` を使いたい時などに使えます。
 
+## 結合先が完全な URL である
+* 変化なし: なし
+* 変化あり: `protocol`, `username`, `password`, `hostname`, `port`, `pathname`, `search`
+
+この場合、結合元の全てを結合先で置き換えます。
+
+例:
+* `https://example.com/path` + `http://example.net/` = `http://example.net/`
+
 ## まとめ
 ファイルパスの操作などで URL API を使ったりする時は、`path.join` と挙動が違うので、気をつけたほうがいいです。
