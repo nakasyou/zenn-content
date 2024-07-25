@@ -6,6 +6,7 @@ topics: ["typescript", "llm"] # タグ。["markdown", "rust", "aws"]のように
 published: true # 公開設定（falseにすると下書き）
 ---
 事実、LLM の API は違いすぎる！
+どういうことかというと、LLM のプロバイダ間で API の互換性がないということです。
 そう思いませんか？
 
 ## CrossLM
