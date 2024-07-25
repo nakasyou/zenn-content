@@ -12,6 +12,12 @@ published: false # 公開設定（falseにすると下書き）
 私は作っている PoC のライブラリです。
 さまざまな LLM API のプロバイダの API の差異を吸収してくれるラッパーです。
 
+```shell
+deno add @pnsk-lab/crosslm # Deno
+bunx jsr add @pnsk-lab/crosslm # Bun
+pnpm dlx jsr add @pnsk-lab/crosslm # pnpm
+```
+でインストールし、
 ```ts
 import { CrossLM } from '@pnsk-lab/crosslm'
 import { CommandRPlus } from '@pnsk-lab/crosslm/cohere/command-r-plus'
@@ -28,7 +34,7 @@ console.log(text)
 また、これのプロバイダを変えても動くわけです:
 ```ts
 import { CrossLM } from '@pnsk-lab/crosslm'
-import { Gemini15Frash } from '@pnsk-lab/crosslm/gemini/1-5-flash'
+import { Gemini15Frash } from '@pnsk-lab/crosslm/gemini/15-flash'
 
 const lm = new CrossLM([new Gemini15Frash(process.env.GOOGLE_AI_KEY)])
 ```
@@ -40,11 +46,19 @@ const lm = new CrossLM([new Gemini15Frash(process.env.GOOGLE_AI_KEY)])
 LLM のプロバイダ間では、機能の提供の有無に差があります。例えば、画像を認識できるか否かや、システムプロンプトに対応しているかなどです。
 それを解決するために、Features という仕組みを搭載しています。
 
-例えば、Cohere API はストリーミングとドキュメントの読み込み、システムプロンプトをメッセージとして渡すことに対応しているため、`stream`, `system-prompt-as-message`, `document` などの Features が示されています。
+例えば、Cohere API はストリーミングとドキュメントの読み込み、システムプロンプトをメッセージとして渡すことに対応しているため、`stream`, `system-as-role`, `input-document` などの Features が示されています。
 同様に、マルチモーダルな Gemini 1.5 Flash には `input-images` というタグがついています。
 
 ```ts
-lm.generate(['image'], { messages: [ ... ] })
+const image: Blob = ...
+lm.generate(['input-images'], {
+  messages: [
+    parts: [
+      { text: 'この画像は何を示している？' },
+      { image }
+    ]
+  ]
+})
 ```
 のように使用する Features を明示することで、それに沿ったモデルで生成することができます。
 
@@ -60,6 +74,7 @@ await lm.generate(...)
 ```
 無料枠を使い果たしたなど、エラーが起きた場合は次のモデルに処理を回すので、いろいろな API Key を統合できます。
 さらに、先ほどの Features 機能と組み合わせることで、たくさんあるモデルのなかから使いたい機能が備わっているモデルを引き出し、使えます。
+これにより、LLM 機能の冗長性が保たれるかもしれません！
 
 ### ランダム機能
 ```ts
@@ -71,6 +86,18 @@ const lm = new CrossLM([
 await lm.generate([], { ... }, { mode: 'random' })
 ```
 のようにすると、重み付きでランダムに処理できます。
-API Key の枠を分散して消費することができます。
+API Key の枠を分散して消費することができます。個人開発に優しくなるかもしれません！
 
+## 欠点
+欠点としては、LLM API の統合により失われる API がでてくるということです。
 
+例えば、 Cohere API には独自の Web 検索機能があります。これは Gemini/Groq 等の API にないので、ライブラリ側が実装しなければ、その機能は使うことができません。
+API の統合により、失われてしまう、カスタマイズ性が低下してしまいます。
+
+## 伝えたいこと
+メンテナンスできるかどうかすらわからないので、開発にこのライブラリを使ってみて！っていうことではないです。
+このようなコンセプトを持ったライブラリができたり、プロバイダ側が共通した API を提供してほしいな、という考えです。
+
+## リンク
+https://jsr.io/@pnsk-lab/crosslm
+https://github.com/pnsk-lab/CrossLM
