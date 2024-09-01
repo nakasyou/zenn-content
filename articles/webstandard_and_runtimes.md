@@ -188,4 +188,24 @@ app.get('/', c => {
 
 しかし、このような方法は、拡張をラップしているだけであり、根本的な解決にはならないと思います。
 
-## 3: WinterCG に期待する
+## 3: [WinterCG](https://wintercg.org) に期待する
+
+[WinterCG](https://wintercg.org) というコミュニティーグループが存在します。これは、ブラウザ以外の JS ランタイムの API を標準化することを目的としています。
+いわば、「サーバーサイドの Web 標準」を策定するみたいな感じです。
+
+Cloudflare Workers, Deno, Bun, fastly, Vercel, netlify などが参加しています。(Bun はないです...)
+
+これにより、サーバーサイドの JS API が統合され、Web 標準の限界を乗り越えることができるのではないかと思います。
+
+`import.meta.*` を集める？試みをしていたり
+https://github.com/wintercg/import-meta-registry
+
+WinterCG による `fetch` 標準を策定しようとしていたり
+https://github.com/wintercg/fetch
+
+期待してみる選択肢はいいかもしれません。
+
+## まとめ
+
+Web 標準は美しいと思います。また、それに即したコードが書けるのはまた良いことだと考えます。
+しかし、 Web 標準には限界があり、Web 標準が全てに通用するとは限らないので、それを考慮してサーバーサイド JavaScript を書いていくといいと思います。
