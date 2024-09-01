@@ -194,7 +194,7 @@ app.get('/', c => {
 [WinterCG](https://wintercg.org) というコミュニティーグループが存在します。これは、ブラウザ以外の JS ランタイムの API を標準化することを目的としています。
 いわば、「サーバーサイドの Web 標準」を策定するみたいな感じです。
 
-Cloudflare Workers, Deno, Bun, fastly, Vercel, netlify などが参加しています。(Bun はないです...)
+Cloudflare Workers, Deno, Node.js, fastly, Vercel, netlify などが参加しています。(Bun はないです...)
 
 これにより、サーバーサイドの JS API が統合され、Web 標準の限界を乗り越えることができるのではないかと思います。
 
