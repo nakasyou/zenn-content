@@ -2,8 +2,8 @@
 title: "Web 標準と、その限界" # 記事のタイトル
 emoji: "😱" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["wintercg", "ecmascript"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+topics: ["wintercg", "ecmascript", "javascript"] # タグ。["markdown", "rust", "aws"]のように指定する
+published: true # 公開設定（falseにすると下書き）
 ---
 
 JavaScript、たくさんバックエンドで使われてますよね、あなたも使ったことはありませんか？
@@ -40,11 +40,12 @@ Node.js くらいしかサーバーサイド JS のランタイムはなかっ�
 
 これが現在です。ECMAScript にのっとり作られたランタイムがたくさん登場しました。羅列しちゃいます:
 
-* Deno
-* Bun
-* Google Apps Script
-* Cloudflare Workers
-* WinterJS
+* [Deno](https://deno.com)
+* [Bun](https://bun.sh)
+* [Google Apps Script](https://workspace.google.com/intl/ja/products/apps-script/)
+* [Cloudflare Workers](https://www.cloudflare.com/ja-jp/developer-platform/workers/)
+* [Vercel](https://vercel.com/)
+* [WinterJS](https://winterjs.org)
 * And more...
 
 めっちゃありますね。Web 標準 のおかげで、基本的なコードは同じように書けるわけです。
