@@ -79,6 +79,23 @@ Long Polling または SSE を実装することをおすすめします。
 https://zenn.dev/nakasyou/articles/20231022_about_school_filter#フィルタリングの仕組み
 
 WebSocket はこのプロキシでブロックされてしまう可能性があるので、その他のリアルタイム通信手段を使う必要がある場合があります。
+
+例えば、以下のコードは
+```ts
+const ws = new WebSocket('ws://example.com/realtime')
+ws.onmessage = (e) => console.log(e.data)
+ws.send('hello world')
+```
+以下のように EventSource + fetch で置き換えることができます。
+```ts
+const sse = new EventSource('/realtime-sse')
+sse.onmessage = (e) => console.log(e.data)
+await fetch('/realtime-send', {
+  method: 'POST',
+  body: 'hello world'
+})
+```
+
 SSE は私の環境だとなぜか使えないので、私は Long Polling でリアルタイム処理を実装しています。Socket.IO などを使うのもいいかもしれません。
 
 ### ローカルファイル操作に気をつける
