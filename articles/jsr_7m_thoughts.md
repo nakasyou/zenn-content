@@ -27,7 +27,7 @@ TypeScript パッケージを公開するとき、npm では
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default: "./dist/index.js"
+      "default": "./dist/index.js"
     }
   }
 }
@@ -43,5 +43,28 @@ JSR なら
   "exports": "./index.ts" // または
 }
 ```
-みたいにして直接 TypeScript ファイルを指定することができます。
-  
+みたいに直接 TypeScript ファイルを指定できるのです！ ビルドは不要です！ 忌々しい package.json の exports フィールドとはおさらばです！
+
+### TSDoc からのドキュメント自動生成
+
+例えば、以下のようなランダムな整数を取得する関数を公開するとします。そのときに、TSDoc を以下のように指定すると:
+```ts:mod.ts
+/**
+ * Get random integer
+ * @param min A min integer
+ * @param max A max integer
+ * @param opts Options
+ * @returns Random value, min <= x <= max
+ */
+export const randInt = (min: number, max: number, opts?: RandOpts): number =>
+  Math.floor(random(opts) * (max - min + 1)) + min
+```
+
+JSR のページ上にドキュメントが自動で生成されます。
+![IMG_3847](https://github.com/user-attachments/assets/b06f9c61-7830-4e5d-b50a-59ec6597e1fd)
+
+これは Hono というフレームワークの一部分ですが、以下のようにクラスのメソッドやプロパティも表示できます。Markdown も使えます。
+
+![IMG_3848](https://github.com/user-attachments/assets/f4e26847-0284-452f-9123-048401c80436)
+
+ライブラリの型定義や使い方を直感的に見たいユーザーにもいいです。また、TSDoc を自前で HTML にしてサイトにして公開するという開発者の手間も少なくなるでしょう。
