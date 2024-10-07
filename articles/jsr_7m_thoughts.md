@@ -190,7 +190,7 @@ export const schema = z.ZodObject<{
 ```
 みたいにめっちゃ長い型を明示的に指定しないといけません。Zod/TS の強みは消えてしまいますね。
 
-[^ast_dts]: https://github.com/jsr-io/jsr/blob/d4cd64366870bca2a8ad4c5e030b42b9b48dea19/api/src/npm/emit.rs#L64
+[^ast_dts]: https://github.com/jsr-io/jsr/blob/d4cd64366870bca2a8ad4c5e030b42b9b48dea19/api/src/npm/emit.rs
 ### ビルドと相性が悪い
 
 JSR、ビルドしたコードと相性が悪いです。例えば、先ほどの Zod コードを `tsc` 等でコンパイルして、ローカルで .d.ts を出力させるとします。
