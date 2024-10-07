@@ -152,9 +152,82 @@ export const add = (a: number, b: number) => {
 
 別にこれくらいの型を書くくらいいいじゃないか！って思う人もいるかもしれません。しかし、Zod などのスキーマをエクスポートする場合はどうでしょう？
 自作のプロトコルを作ったと仮定します。そのプロトコルのスキーマを Zod で公開したいとあなたは思いました。
+
+```ts:index.ts
+import * as z from 'zod'
+
+export const schema = z.object({
+  type: z.enum(['a', 'b']),
+  data: z.object({ value: z.string() })
+})
 ```
-### ダークモードない
+こんな感じにしましょう。しかし、公開はできません。schema の型を明示的に指定していないからです。
+解決するには
+```ts
+import * as z from 'zod'
+
+export const schema = z.ZodObject<{
+    type: z.ZodEnum<["a", "b"]>;
+    data: z.ZodObject<{
+        value: z.ZodString;
+    }, "strip", z.ZodTypeAny, {
+        value: string;
+    }, {
+        value: string;
+    }>;
+}, "strip", z.ZodTypeAny, {
+    type: "a" | "b";
+    data: {
+        value: string;
+    };
+}, {
+    type: "a" | "b";
+    data: {
+        value: string;
+    };
+}> = // ...
+```
+みたいにめっちゃ長い型を明示的に指定しないといけません。Zod/TS の強みは消えてしまいますね。
+
+### ビルドと相性が悪い
+
+JSR、ビルドしたコードと相性が悪いです。例えば、先ほどの Zod コードを `tsc` 等でコンパイルして、ローカルで .d.ts を出力させるとします。
+しかし、JSR の設定ファイルには .d.ts を指定できるフィールドはありません。
+
+```ts:dist/index.ts
+// @ts-self-types="./index.d.ts"
+```
+みたいに独自のコメントで、トランスパイルされた JavaScript コードに対して .d.ts を指定することができます。ちょっと面倒ですね。
+
+#### Deno での問題
+
+Deno では独自のモジュール解決システムを用いているため、前述のような Zod コードを `tsc` 等で .d.ts にコンパイルできません。そのため、このような方法で Slow Types を回避できません。
+私はスキーマを JSR に上げるために、Deno プロジェクトを仕方なく tsc と互換性のある Bun に移行しました。
+
+### Deno First じゃね？
+
+JSR は Node.js 以外の JavaScript ランタイムが存在する時代のために作られた、多様性のある(?)レジストリのはずです。
+しかし、JSR は前述の通り公開に Deno に依存しています。
+
+また、Deno std という Deno が提供する標準ライブラリが JSR `@std` というスコープに存在します。[`@std/fs`](https://jsr.io/@std/fs) なんかは Deno しか対応していません。
+
+さらに、JSR にはコマンドラインスクリプトを公開することができますが、Deno でしか実行できません。
+```ts
+deno run -Ar jsr:@fresh/init
+```
+みたいに Deno から JSR のモジュールを呼び出せますが、他のランタイムではできません。`jsr dlx`みたいなものはないです。
+
+### 雑多
+#### ダークモードない
 
 npm にもないですが。
 暗いところで眩しいです。
+
+#### 検索弱い
+
+ためせばわかりますが、検索弱いです。
+
+## 感想、まとめ
+
+7ヶ月前は、最強のレジストリだと思っていますが、7 ヶ月たち、意外とそうでもない感じがします。完璧などないはずなので、今後の成長に期待したいです。
 
