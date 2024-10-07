@@ -95,6 +95,7 @@ JSR にはパッケージごとの OGP が存在します。npm にはありま�
 
 https://jsr.io/@ns/personalities
 
+![IMG_3850](https://github.com/user-attachments/assets/21fb3746-e508-4845-a29f-6001413d8437)
 
 ## 👎
 
@@ -122,8 +123,38 @@ JSR にパッケージを公開するときに、`deno publish` をして公開�
 
 [^deno_publish_code]: https://github.com/jsr-io/jsr-npm/blob/52f93c31b00661a6cf2ba40a9663e02e5b199506/src/commands.ts#L166
 
+### Slow Types という 「言い訳」
+
+(「言い訳」は誇張しています)
+
+JSR には Slow Types という概念があります。JSR は、レジストリ単位で TypeScript をサポートしていると前述しました。その過程で生まれた「言い訳」が Slow Types です。JSR では、内部的に TypeScript コードを型定義ファイルである `.d.ts` にトランスパイルします。その際、tsc を呼び出したりすると、JSR サーバーに大きな負荷がかかります。それを解決するために、「Slow Types」という建前を作っているのです。
+
+たとえば、以下のコードがあります。
+```ts:mod.ts
+export const add = (a: number, b: number): number => {
+  return a + b
+}
+```
+これを tsc を使わずに .d.ts を出力するために、単純な TypeScript AST の操作によって .d.ts を出力しています。このコードでは、`: number` と明示的に指定されているので、AST の操作で
+```ts:mod.d.ts
+export declare const add: (a: number, b: number) => number
+```
+みたいに型推論なしで .d.ts の生成を実現しています。
+
+では、次のコードではどうでしょう。
+```ts:mod.ts
+export const add = (a: number, b: number) => {
+  return a + b
+}
+```
+明示的に返り値を指定していません。JSR には型推論機能が備わっていません。返り値がコード内にないので、AST の操作によって `add` の `.d.ts` を生成することができないのです。
+このように、エクスポートされる変数や関数に対して明示的に型を指定していない状態を JSR は 「Slow Types」と呼んでいます。
+
+別にこれくらいの型を書くくらいいいじゃないか！って思う人もいるかもしれません。しかし、Zod などのスキーマをエクスポートする場合はどうでしょう？
+自作のプロトコルを作ったと仮定します。そのプロトコルのスキーマを Zod で公開したいとあなたは思いました。
+```
 ### ダークモードない
 
 npm にもないですが。
-夜見にくいです。
+暗いところで眩しいです。
 
