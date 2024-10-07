@@ -127,15 +127,16 @@ JSR にパッケージを公開するときに、`deno publish` をして公開�
 
 (「言い訳」は誇張しています)
 
-JSR には Slow Types という概念があります。JSR は、レジストリ単位で TypeScript をサポートしていると前述しました。その過程で生まれた「言い訳」が Slow Types です。JSR では、内部的に TypeScript コードを型定義ファイルである `.d.ts` にトランスパイルします。その際、tsc を呼び出したりすると、JSR サーバーに大きな負荷がかかります。それを解決するために、「Slow Types」という建前を作っているのです。
+JSR には **Slow Types** という概念があります。JSR は、レジストリ単位で TypeScript をサポートしていると前述しました。その過程で生まれた「言い訳」が Slow Types です。JSR では、内部的に TypeScript コードを型定義ファイルである `.d.ts` にトランスパイルします。その際、tsc を使うと、JSR サーバーに大きな負荷がかかります。そのため、JSR は内部的に tsc を使わず、**型推論を行いません**。それを解決するために、「Slow Types」という建前を作っているのです。
 
-たとえば、以下のコードがあります。
+このコードを例にします。
 ```ts:mod.ts
 export const add = (a: number, b: number): number => {
   return a + b
 }
 ```
-これを tsc を使わずに .d.ts を出力するために、単純な TypeScript AST の操作によって .d.ts を出力しています。[^ast_dts]
+型推論を行わずに .d.ts を出力するために、単純な TypeScript AST の操作によって .d.ts を出力します。[^ast_dts]
+
 このコードでは、`: number` と明示的に指定されているので、AST の操作で
 ```ts:mod.d.ts
 export declare const add: (a: number, b: number) => number
@@ -148,8 +149,8 @@ export const add = (a: number, b: number) => {
   return a + b
 }
 ```
-明示的に返り値を指定していません。JSR には型推論機能が備わっていません。返り値がコード内にないので、AST の操作によって `add` の `.d.ts` を生成することができないのです。
-このように、エクスポートされる変数や関数に対して明示的に型を指定していない状態を JSR は 「Slow Types」と呼んでいます。
+明示的に返り値を指定していません。返り値がコード内にないので、AST の操作によって `add` の `.d.ts` を生成することができないのです。`a + b` が number だと推測するには tsc が必要です。
+このような、エクスポートされる変数や関数に対して明示的に型を指定していない状態を JSR は 「Slow Types」と呼んでいます。
 
 別にこれくらいの型を書くくらいいいじゃないか！って思う人もいるかもしれません。しかし、Zod などのスキーマをエクスポートする場合はどうでしょう？
 自作のプロトコルを作ったと仮定します。そのプロトコルのスキーマを Zod で公開したいとあなたは思いました。
@@ -162,7 +163,8 @@ export const schema = z.object({
   data: z.object({ value: z.string() })
 })
 ```
-こんな感じにしましょう。しかし、公開はできません。schema の型を明示的に指定していないからです。
+こんな感じにしましょう。しかし、公開はできません。schema の型を明示的に指定していないからです。Slow Types だと公開時に怒られます。
+
 解決するには
 ```ts
 import * as z from 'zod'
@@ -191,6 +193,7 @@ export const schema = z.ZodObject<{
 みたいにめっちゃ長い型を明示的に指定しないといけません。Zod/TS の強みは消えてしまいますね。
 
 [^ast_dts]: https://github.com/jsr-io/jsr/blob/d4cd64366870bca2a8ad4c5e030b42b9b48dea19/api/src/npm/emit.rs
+
 ### ビルドと相性が悪い
 
 JSR、ビルドしたコードと相性が悪いです。例えば、先ほどの Zod コードを `tsc` 等でコンパイルして、ローカルで .d.ts を出力させるとします。
