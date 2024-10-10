@@ -18,3 +18,15 @@ Deno 2 を紹介する Deno Blog において、
 | name | Deno 2 | Deno 1.46 | Bun |
 | --- | --- | --- | --- |
 | Playwright | ❌ | ❌ | ✅ |
+
+:::details 使用したコード
+#### Playwright
+```js
+import { firefox } from 'playwright'
+import { writeFile } from 'node:fs/promises'
+
+const browser = await firefox.launch({ headless: true })
+const page = await browser.newPage()
+await page.goto('https://example.com')
+```
+:::
