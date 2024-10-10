@@ -15,9 +15,13 @@ Deno 2 を紹介する Deno Blog において、
 
 と記述している。これが気になった。Node.js で動くなら Deno で動くのか。Node.js の互換性について試してみる。
 
+### ライブラリ/フレームワーク
 | name | Deno 2 | Deno 1.46 | Bun |
 | --- | --- | --- | --- |
 | Playwright | ❌ | ❌ | ✅ |
+| node-pty | ❌ | ❌ | ❌ |
+| SvelteKit | ✅ | ✅ | ✅ |
+
 
 :::details 使用したコード
 #### Playwright
@@ -29,4 +33,23 @@ const browser = await firefox.launch({ headless: true })
 const page = await browser.newPage()
 await page.goto('https://example.com')
 ```
+#### node-pty
+```js
+import { spawn } from 'node-pty'
+
+const bash = spawn('bash')
+bash.onData(e => console.log(e))
+```
 :::
+
+試した母数は少ないが、変わったような結果にはならなかった。
+
+### npm 互換性
+
+Deno 2 においては、Private npm registry がサポートされるなど、npm に対する互換性が改善された。
+Private npm registry がないから Deno ではなく Bun を使っていたなら、Deno に切り替えることが可能であろう。
+
+## パッケージマネージャーのパフォーマンス
+
+Bun のインストール速度は超速い。これは知っている人が多いだろう。Deno 2 では、パッケージマネージャーのスピードが大幅に改善されたようである。
+
