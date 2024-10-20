@@ -67,11 +67,43 @@ const text = await readFile('./example.txt', { encoding: 'utf-8' })
 つまり、Deno や Bun などの色々なランタイムが独自の API を作っている中でも、Node.js だけが「互換性」の名目で共通言語として君臨しているのです。まさに、「事実上の標準」です。
 `node:fs` や `node:assert` など、`node:*` の API を使えば、さまざまなランタイムで動かせるわけです。
 
-## My Opinion
+## 本当に `node:*` API は正解なのか
 
-私の個人的な意見。
-
-### 本当に `node:*` API は正解なのか
+ここから私の個人的な意見です。
 
 前述したように、`node:*` API は各バックエンド JS ランタイム間の「事実上の標準」なっています。私はそれに対して、本当にそれでいいのかと思います。
+
+### 策定者の問題
+
+まず、`node:*` の API は Node.js のコミュニティが作っています。W3C や ECMA、WHATWG などの団体ではなく、コントリビュータなどが作成しています。Bun や Deno が互換性のために Node.js に従っています。互換性のために Node.js のアップデートのたびに実装していくのはいいかもしれませんが、事実上の標準を作りだすために Node.js にしたがうのは違和感を感じます。Deno や Bun はただひたすらに Node.js に従っていくのでしょうか。
+
+Node.js コミュニティがバックエンド JS ランタイムの標準を作っているという状況です。
+
+### Web 標準との剥離
+
+`node:*` API は古いものも含まれています。
+
+例えば、ファイル操作の `node:fs` は Promise より前に作られたので、 Promise 非対応です。
+```js
+import { readFile } from 'node:fs'
+
+readFile('./example.txt', 'utf-8', (err, data) => console.log(data))
+```
+もちろん Promise による `node:fs/promises` もあります。
+```js
+import { readFile } from 'node:fs/promises'
+
+const text = await readFile('./example.txt', { encoding: 'utf-8' })
+```
+個人的に疑問に思うのが、最後の`/promises` です。現代の非同期処理の多くがデフォルトで Promise のなか、デフォルトで Promise ではないことを意味するのかにように `/promises` がついています。別に Node.js だけの API ならいいかもしれませんが、標準として使うには違和感があります。
+
+Stream も同様です。現代は ReadableStream/WritableStream というブラウザでも使える Web 標準 API が存在するのに、Node.js は独自の Stream を提供しています。[process.stdout](https://nodejs.org/api/process.html#process_process_stdout) なども非 Web 標準なストリームです。
+
+これらより、Web 標準で済むものが Web 標準ではない Node.js API になってしまっています。Web 標準でできることが多い現代なのに、Web 標準ではない API がバックエンド JS ランタイムの事実上の標準になってしまっています。これは問題ではないでしょうか。
+
+### 固有名詞
+
+これは根拠として弱いですが、マルチランタイム時代に `node:` というランタイム固有名詞の prefix がついていることは違和感があります。
+
+## 
 
