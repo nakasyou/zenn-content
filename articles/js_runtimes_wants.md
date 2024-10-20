@@ -1,9 +1,9 @@
 ---
-title: "JS ランタイムへ求める妄想" # 記事のタイトル
+title: "JS ランタイムの標準への意見と妄想" # 記事のタイトル
 emoji: "😴" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["ecmascript", "deno", "bun", "node.js", "wintercg"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 私がバックエンド JavaScript に求めている妄想を、**お前何様目線**で綴っていきたいです。
