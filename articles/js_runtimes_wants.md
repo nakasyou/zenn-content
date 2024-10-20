@@ -6,7 +6,7 @@ topics: ["ecmascript", "deno", "bun", "node.js", "wintercg"] # タグ。["markdo
 published: false # 公開設定（falseにすると下書き）
 ---
 
-私がバックエンド JavaScript に求めている妄想を、**何様目線**で綴っていきたいです。
+私がバックエンド JavaScript に求めている妄想を、**お前何様目線**で綴っていきたいです。
 
 ## 目的
 
