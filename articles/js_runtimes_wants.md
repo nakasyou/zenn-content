@@ -6,7 +6,7 @@ topics: ["ecmascript", "deno", "bun", "node.js", "wintercg"] # タグ。["markdo
 published: false # 公開設定（falseにすると下書き）
 ---
 
-私がバックエンド JavaScript に求めている妄想を、何様目線で綴っていきたいです。
+私がバックエンド JavaScript に求めている妄想を、**何様目線**で綴っていきたいです。
 
 ## 目的
 
@@ -105,5 +105,66 @@ Stream も同様です。現代は ReadableStream/WritableStream というブラ
 
 これは根拠として弱いですが、マルチランタイム時代に `node:` というランタイム固有名詞の prefix がついていることは違和感があります。
 
-## 
+## ほしいもの
 
+ここまで、事実 → 意見 と述べてきましたが、**私の妄想**のフェーズです。
+
+私がバックエンド JS ランタイムへ求めるものを綴っていきたいです。
+
+`node:*` API ではないバックエンド JS ランタイム間の標準がほしいです！！
+
+例えば、一例ですが、
+```ts
+import { open } from 'hyojun:fs'
+
+const file = await open('./a.txt')
+
+file.readable // ReadableStream
+file.blob() // Blob
+```
+みたいなの良くないですか？ Web 標準にのっとったバックエンド JS ランタイム間の標準がほしいです！
+
+Request => Response なサーバーもあったらいいな
+```ts
+import { serve } from 'hyojun:serve'
+
+serve({
+  fetch(req: Request, info) {
+    console.log('IP Addr', info.remote.hostname)
+  }
+})
+```
+現在 Deno/Bun/Cloudflare Workers における Request => Response API のハンドラーでは、それぞれ形が違います。fetch の第二引数は Deno ではクライアントの情報、Bun ではサーバーのインスタンス、Workers では環境変数及び Bindings です。これも統合してほしいという妄想。
+
+### メリット
+
+* Web 標準にバックエンド JS ランタイム API を使える！
+* Bun -> Deno, Deno -> Bun など、ランタイムの移行がスムーズにできる！
+  ランタイム制作者はよりスピードなど、独自のユニークな機能で競争に集中できるようになるかもしれません。
+* Node.js の「事実上の標準」から脱却できる！
+
+### 予想される反論とそれに対する反論
+
+#### [WinterCG](https://wintercg.org) があるじゃないか！
+
+WinterCG は、各ランタイムの標準を作ることを促進する団体です。
+WinterCG は、仕様を作らず、既存の仕様を使います。[^wintercg_does_not_create]
+これは例えば、Node.js の API を「事実上の標準」から「標準」にするということです。
+
+WinterCG が Web 標準に順序した仕様を選択するのであれば、私は非常に happy になるでしょう。
+
+[^wintercg_does_not_create]: https://wintercg.org/faq#what-we-are-not-trying-to-do
+
+#### Web 標準にできることが増えたら
+
+Web 標準でできることが増えて、バックエンド JS ランタイムの標準が独自に作成する範囲が狭くなった場合、バージョンアップを必要とします。破壊的変更です。
+
+これに対して、バージョンを明記できるようにしたらいいかもしれません:
+```ts
+import { open } from 'hyojun5:fs'
+```
+パッケージごとの設定ファイルに書き込み、より import をスマートにするという選択もあるかもしれません。
+
+## まとめ
+
+共感してほしい。
