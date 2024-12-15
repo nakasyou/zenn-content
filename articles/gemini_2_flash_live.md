@@ -2,7 +2,7 @@
 title: "Gemini 2.0 Flash Live API 超解説" # 記事のタイトル
 emoji: "🗣️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["gemini", "websocket"] # タグ。["markdown", "rust", "aws"]のように指定する
+topics: ["gemini", "websocket", "javascript"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: true # 公開設定（falseにすると下書き）
 ---
 
