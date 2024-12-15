@@ -58,7 +58,7 @@ ws.send(JSON.stringify({
 ```
 のようなイメージです。セットアップで何が指定できるかは型定義として以下に置いておきます。
 ```ts
-import type { Tool, Content } from '@google/generative-ai' // もともとある型
+import type { Tool, Content, GenerationConfig } from '@google/generative-ai' // もともとある型
 
 // こいつを指定する
 export interface Setup {
@@ -84,7 +84,7 @@ export interface LiveGenerationConfig extends GenerationConfig {
   stopSequences?: never
 
   // 重要なので後で説明
-  responseModalities?: ("TEXT" | "IMAGE" | "AUDIO">)[]
+  responseModalities?: ("TEXT" | "IMAGE" | "AUDIO")[]
 
   // 声とか変更できる
   speechConfig?: LiveSpeechConfig
@@ -98,3 +98,16 @@ export interface LiveGenerationConfig extends GenerationConfig {
    }
  }
 ```
+
+この `responseModalities` というのが、モデルの出力形式です。デフォルトは、`['AUDIO']`です。AUDIO だと、モデルは音声を出力(喋る)します。TEXT だと、テキストを返します。IMAGE は多分将来的に解放される、画像生成だと思います。
+配列形式ですが、2つ以上していするとエラー出ます。
+
+また、正常にセットアップできると
+```json
+{
+  "setupComplete": {}
+}
+```
+という JSON メッセージが送られてきます。そうしたら会話スタートです！
+
+### 
