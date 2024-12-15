@@ -9,6 +9,8 @@ published: false # 公開設定（falseにすると下書き）
 Gemini 2.0 Flash やばいですよね。その目玉機能の一つに、リアルタイムの音声動画通信があります。動画と音声で LLM とリアルタイム会話できるのです！
 その API である Multimodal Live API があるのですが、これがとても情報量が少ないので、解説していきたいと思います。
 
+Python の SDK しか提供されていないので、JavaScript 大好き nakasyou としては JavaScript で使いたくなったので、コードなどから調べました。
+
 ## 概要
 
 ## Multimodal Live API ってどんなの
@@ -25,7 +27,74 @@ API にプロンプトを送ると、ストリーミングが開始され、一�
 
 一方、Gemini 2.0 Flash の Multimodal Live API は、WebSocket を使用しています。 WebSocket は、双方向の通信を可能にする技術です。
 従来の LLM API は、最初にプロンプトを送るだけなので、HTTP Streaming で十分でしたが、Multimodal Live API は、それだけでは足りません。ユーザーが任意のタイミングで情報を送信する必要があるためです。
-例えば、Gemini の説明を聞いているときに、「やっぱり説明をやめて」みたいなことができるわけです。これには双方向通信をしなければならないので、 WebSocket を使用しているというわけです。
+例えば、Gemini の説明を聞いているときに、「やっぱり説明をやめて」みたいなことができるわけです。これには双方向通信をしなければならないので、 WebSocket を使用しているというわけです
 
-## API 仕組み
+## API の使い方
 
+TypeScript でサンプルコードを書いていきます。
+
+### 接続
+
+WebSocket に接続するコードです:
+```ts
+const ws = new WebSocket('wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=apiKey')
+```
+ポイントとしては、
+- エンドポイントは `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`
+- API Key は `key` パラメーターで指定する
+
+といったところです。
+
+### セットアップ
+
+generationConfig やシステムプロンプトはどうやって指定するんだと思ったそこのあなた。JSON 形式のメッセージを送ります。
+
+```ts
+ws.send(JSON.stringify({
+  setup: {
+    // セットアップ用のデータ
+  }
+}))
+```
+のようなイメージです。セットアップで何が指定できるかは型定義として以下に置いておきます。
+```ts
+import type { Tool, Content } from '@google/generative-ai' // もともとある型
+
+// こいつを指定する
+export interface Setup {
+  // models/gemini-2.0-flash-exp みたいに、必須プロパティ
+  model: `models/${string}`
+
+  // 普通とちょっと違う GenerationConfig です。
+  generationConfig?: LiveGenerationConfig
+
+  // システムプロンプト。
+  systemInstruction?: Content
+
+  // ツール。Function Calling とか使える
+  tools?: Tool[]
+}
+
+export interface LiveGenerationConfig extends GenerationConfig {
+  // これらの型はサポートされてない
+  responseLogprobs?: never
+  responseMimeType?: never
+  logprobs?: never
+  responseSchema?: never
+  stopSequences?: never
+
+  // 重要なので後で説明
+  responseModalities?: ("TEXT" | "IMAGE" | "AUDIO">)[]
+
+  // 声とか変更できる
+  speechConfig?: LiveSpeechConfig
+}
+
+ export interface LiveSpeechConfig {
+   voiceConfig?: {
+     prebuiltVoiceConfig?: {
+       voiceName?: string // 変更したい声の名前
+     }
+   }
+ }
+```
