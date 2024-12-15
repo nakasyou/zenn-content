@@ -11,6 +11,8 @@ Gemini 2.0 Flash やばいですよね。その目玉機能の一つに、リア
 
 Python の SDK しか提供されていないので、JavaScript 大好き nakasyou としては JavaScript で使いたくなったので、コードなどから調べました。
 
+TypeScript でサンプルコードを書いていきます。
+
 ## 概要
 
 ## Multimodal Live API ってどんなの
@@ -27,13 +29,9 @@ API にプロンプトを送ると、ストリーミングが開始され、一�
 
 一方、Gemini 2.0 Flash の Multimodal Live API は、WebSocket を使用しています。 WebSocket は、双方向の通信を可能にする技術です。
 従来の LLM API は、最初にプロンプトを送るだけなので、HTTP Streaming で十分でしたが、Multimodal Live API は、それだけでは足りません。ユーザーが任意のタイミングで情報を送信する必要があるためです。
-例えば、Gemini の説明を聞いているときに、「やっぱり説明をやめて」みたいなことができるわけです。これには双方向通信をしなければならないので、 WebSocket を使用しているというわけです
+例えば、Gemini の説明を聞いているときに、「やっぱり説明をやめて」みたいなことができるわけです。これには双方向通信をしなければならないので、 WebSocket を使用しているというわけです。
 
-## API の使い方
-
-TypeScript でサンプルコードを書いていきます。
-
-### 接続
+## 接続
 
 WebSocket に接続するコードです:
 ```ts
@@ -45,7 +43,7 @@ const ws = new WebSocket('wss://generativelanguage.googleapis.com/ws/google.ai.g
 
 といったところです。
 
-### セットアップ
+## セットアップ
 
 generationConfig やシステムプロンプトはどうやって指定するんだと思ったそこのあなた。JSON 形式のメッセージを送ります。
 
@@ -61,7 +59,7 @@ ws.send(JSON.stringify({
 import type { Tool, Content, GenerationConfig } from '@google/generative-ai' // もともとある型
 
 // こいつを指定する
-export interface Setup {
+interface Setup {
   // models/gemini-2.0-flash-exp みたいに、必須プロパティ
   model: `models/${string}`
 
@@ -75,7 +73,7 @@ export interface Setup {
   tools?: Tool[]
 }
 
-export interface LiveGenerationConfig extends GenerationConfig {
+interface LiveGenerationConfig extends GenerationConfig {
   // これらの型はサポートされてない
   responseLogprobs?: never
   responseMimeType?: never
@@ -90,13 +88,13 @@ export interface LiveGenerationConfig extends GenerationConfig {
   speechConfig?: LiveSpeechConfig
 }
 
- export interface LiveSpeechConfig {
-   voiceConfig?: {
-     prebuiltVoiceConfig?: {
-       voiceName?: string // 変更したい声の名前
-     }
-   }
- }
+interface LiveSpeechConfig {
+  voiceConfig?: {
+    prebuiltVoiceConfig?: {
+      voiceName?: string // 変更したい声の名前
+    }
+  }
+}
 ```
 
 この `responseModalities` というのが、モデルの出力形式です。デフォルトは、`['AUDIO']`です。AUDIO だと、モデルは音声を出力(喋る)します。TEXT だと、テキストを返します。IMAGE は多分将来的に解放される、画像生成だと思います。
@@ -110,4 +108,128 @@ export interface LiveGenerationConfig extends GenerationConfig {
 ```
 という JSON メッセージが送られてきます。そうしたら会話スタートです！
 
-### 
+## メッセージの受信
+
+メッセージは、JSON 形式で送られてくるので、JSON 形式でパースすればよいのです。
+```ts
+ws.onmessage = async (event) => {
+  const data = await new Response(event.data).json()
+}
+```
+ここで注意しなければならないポイントは、メッセージは文字列形式で送られてくるとは限らないということです。Blob 形式や ArrayBuffer 形式で送られてきてもパースできるようにハンドリングしましょう。この場合は、JavaScript の `Response` を使用して正規化しています。
+
+モデルには、「ターン」という概念があります。あなたが面接官と話すとしましょう。会話のキャッチボールなので、面接官が話しているときは会話を遮らないはずです。それと同じように、モデルにターンという概念があります。モデルが話している途中かどうかの状態があるというわけです。
+ただし、ユーザーにはターンという概念はありません。ユーザーは好きなときにモデルの話を遮ることはできます。
+
+送られてくるメッセージの種類は 4 つで、それぞれ役割が違います。それぞれ紹介します。
+
+### setupComplete
+setupComplete メッセージは、先ほど紹介したセットアップの完了後にサーバーから送られてくるメッセージです。先ほど紹介したものと同様に、以下の形式をしています。
+```json
+{
+  "setupComplete": {}
+}
+```
+setupComplete の中身は空です。
+
+### serverContent
+
+serverContent メッセージは、モデルからのメッセージです。テキストや音声が含まれています。
+TypeScript 型にすると以下のような形式です。ドキュメントに書かれているものと異なりますが、実際はこのような挙動をします。
+```ts
+import type { Content } from '@google/generative-ai' // もともとある型
+
+// これが送られてくる
+interface Message {
+  serverContent: {
+    // ターンが終了したことを示す
+    turnComplete: true
+  } | {
+    modelTurn: Content
+  }
+}
+```
+Content はつまり、ロールとレスポンスを含むものです。
+
+以下のようにハンドリングすることができます。このメッセージは、複数の Part を含みます。(複数含むことを見たことがありませんが)
+```ts
+// Part を処理する
+async function handlePart(part: Part) {
+  // responseModalities に AUDIO を指定した場合
+  await playSound(part.inlineData.data)
+
+  // responseModalities に TEXT を指定した場合
+  console.log('モデルからのメッセージ', part.text)
+}
+function handleServerContentMessage (message: Message) {
+  if ('turnComplete' in message && message.turnComplete) {
+    // モデルのターンが終了した
+    console.log('モデルは今話したいことを全部話した！')
+  } else {
+    // Content を処理する
+    for (const part of content.parts) {
+      // 複数の Part が含まれる
+      handlePart(part)
+    }
+  }
+}
+```
+ここで重要なのが、先ほど記述した responseModalities です。
+responseModalities の指定によって、音声が返ってくるかテキストが返ってくるかが異なるため、それに沿って Part をハンドリングする必要があります。
+例えば TEXT を指定した場合、
+```json
+{
+  "serverContent": {
+    "modelTurn": {
+      "parts": [{ "text": "こんにちは！" }]
+    }
+  }
+}
+```
+
+のような JSON が送られます。 AUDIO の場合、
+```json
+{
+  "serverContent": {
+    "modelTurn": {
+      "parts": [{
+        "inlineData": { "type": "audio/pcm;rate=24000", "data": "<base64 形式のデータ>" }
+      }]
+    }
+  }
+}
+```
+のようなものが送られてきます。この送られてきた音声は、pcm形式の音声で、24000Hzのサンプルレートです。適切な方法で処理する必要がありまし。
+
+### toolCall
+
+toolCall メッセージは、Gemini API の Function Calling のように、リアルタイムでモデルが Function Call を要求するためのメッセージです。
+型は、以下の通りです。特殊なことはなく、通常の Function Calling と似ているので、これ以上の説明は割愛します。
+```ts
+import type { FunctionCall } from '@google/generative-ai' // もともとある型
+
+interface ToolCallMessage {
+  toolCall: {
+    functionCalls: FunctionCall[]
+  }
+}
+```
+
+### toolCallCancellation
+
+toolCallCancellation メッセージは、toolCall で要求した Function Calling を「やっぱやめた」するためのものです。
+例えば、ユーザーが「今の天気教えて、東京。間違えた、大阪」のようにしたとき、最初の東京の天気を要求する Function Calling はキャンセルする必要があります。
+私の経験では、話題がすぐに変わった(私が変えた)とき受信しました。
+
+型は以下のようになります:
+```ts
+interface ToolCallCancellationMessage {
+  toolCallCancellation: {
+    ids: string[] // キャンセルする関数呼び出し ID の配列
+  }
+}
+```
+
+## メッセージの送信
+
+
