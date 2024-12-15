@@ -15,14 +15,14 @@ TypeScript でサンプルコードを書いていきます。
 
 ## 概要
 
-## Multimodal Live API ってどんなの
+### Multimodal Live API ってどんなの
 
 リアルタイムで音声と動画で通信できるやつです。テキストも対応しています。
 従来の LLM は、1プロンプトに対して1レスポンスなのはわかりますよね。それに対して、Live Streaming では、通常の会話のようにユーザーとモデルが任意のタイミングでメッセージを送ることができます。
 さらに、ユーザーはテキストだけではなく、音声や動画を送ることができます。例えばカメラを知らない花にかざして「この花の名前は？」のように口で聞くことができます。
 また、モデルはテキストだけでなく音声で応答できます。「こんにちは」と音声で話すと「こんにちは」と音声で返してくれたりします。
 
-## 通信方法
+### 通信方法
 
 従来の LLM API は、通信のために HTTP Streaming を使用していました。これは一方向の情報ストリーミングを可能にする技術です。ChatGPT からのレスポンスはすらすらとしていますが、これは HTTP Streaming を使用しているからです。
 API にプロンプトを送ると、ストリーミングが開始され、一方向に結果が出力されるという具合です。
@@ -119,7 +119,6 @@ ws.onmessage = async (event) => {
 ここで注意しなければならないポイントは、メッセージは文字列形式で送られてくるとは限らないということです。Blob 形式や ArrayBuffer 形式で送られてきてもパースできるようにハンドリングしましょう。この場合は、JavaScript の `Response` を使用して正規化しています。
 
 モデルには、「ターン」という概念があります。あなたが面接官と話すとしましょう。会話のキャッチボールなので、面接官が話しているときは会話を遮らないはずです。それと同じように、モデルにターンという概念があります。モデルが話している途中かどうかの状態があるというわけです。
-ただし、ユーザーにはターンという概念はありません。ユーザーは好きなときにモデルの話を遮ることはできます。
 
 送られてくるメッセージの種類は 4 つで、それぞれ役割が違います。それぞれ紹介します。
 
@@ -230,6 +229,145 @@ interface ToolCallCancellationMessage {
 }
 ```
 
+### メッセージの分別
+
+勘の良い方はお気づきかもしれませんが、「serverContent」メッセージなら`serverContent`キーがメッセージにあり、その値として内容があるように、キーによってメッセージを分別できます。これはドキュメントに書かれていません。
+具体的には、以下のように処理できます:
+```ts
+function handleMessage (message) {
+  if ('setupComplete' in message) {
+    // セットアップ完了
+  } else if ('serverContent' in message) {
+    // モデルからのメッセージ
+  } else if ('toolCall' in message) {
+    // ツール呼び出し
+  } else {
+    // ツールキャンセル
+  }
+}
+```
+
 ## メッセージの送信
+
+送信メッセージも JSON 形式です。4種類のメッセージがあります。
+
+### setup
+
+セットアップするためのメッセージです。[セットアップ](#セットアップ)で説明したので割愛します。
+
+### clientContent
+
+clientContent は、テキストや画像などの形式を送信するためのメッセージです。通常の Gemini API へのプロンプトと同じです。
+
+型は以下のようになります。単純ですね。
+```ts
+import type { Content } from '@google/generative-ai' // もともとある型
+
+interface ClientContentMessage {
+  clientContent: {
+    turns?: Content[] // ユーザーが送信したい　Contents
+    turnComplete?: boolean // ユーザーのターンが終了したかどうか
+  }
+}
+```
+
+### realtimeInput
+
+realtimeInput は、動画や音声をリアルタイムで送信するための機能です！こいつが目玉です！
+リアルタイムで送信するデータなので、ターンという概念は存在しません。好きなタイミングでモデルの話を遮れます。
+
+みなさん大好き型定義です:
+```ts
+import type { GenerativeContentBlob } from '@google/generative-ai' // もともとある型
+
+interface RealtimeInputMessage {
+  realtimeInput: {
+    mediaChunks?: GenerativeContentBlob[]
+  }
+}
+```
+
+この機能には「リアルタイム音声を送信する」と「リアルタイム動画を送信する」の2つがあります。
+
+#### リアルタイム音声
+
+音声は、pcm 形式でエンコードされたサンプルレートが 16000Hz のデータをリアルタイムで送信します。複数回送信できます。モデルの声は 24000Hz でしたが、ユーザーの入力は 16000 Hz です。ここに注意してください。
+
+```ts
+ws.send(JSON.strinfify({
+  realtimeInput: {
+    mediaChunks: [
+      {
+        type: 'audio/pcm;rate=16000',
+        data: base64Pcm // base64 形式でエンコードされた pcm データ
+      }
+    ]
+  }
+}))
+```
+のようにして送信してください。
+
+#### リアルタイム動画
+
+「Gemini 2.0 は動画をリアルタイムで見ることができる」と聞いていると、mov や mp4 などを送信していると想像するかもしれませんが、実際は jpeg を大量に送っているだけです。リアルタイムで更新される jpeg データを送信しているのです。
+
+```ts
+ws.send(JSON.strinfify({
+  realtimeInput: {
+    mediaChunks: [
+      {
+        type: 'image/jpeg',
+        data: base64Jpeg // base64 形式でエンコードされた jpeg データ
+      }
+    ]
+  }
+}))
+```
+
+のようにして、カメラなどからリアルタイムで送信できます。注意点としては、image/jpeg 以外はサポートされていないところです。
+
+### toolResponse
+
+toolResponse は、Function Calling の結果を送るためのメッセージです。
+
+型定義:
+```ts
+interface ToolResponseMessage {
+  toolResponse: {
+    functionResponses?: FunctionResponse[]
+  }
+}
+```
+
+toolCall と組み合わせて、以下のように使用できます:
+```ts
+const functions = {
+  getTime() {
+    return Date.now()
+  }
+}
+async function handleToolCallMessafe(message: ToolCallMessage) {
+  for (const functionCall of message.toolCall.functionCalls) {
+    ws.send(JSON.stringify({
+      toolResponse: {
+        functionResponses: [{
+          name: functionCall.name,
+          response: functions[functionCall.name](functionCall.args)
+        }]
+      }
+    }))
+  }
+}
+```
+
+## まとめ
+
+これらの内容で、Gemini Multimodal Stream API をいじれるようになったら嬉しいです！
+
+## 宣伝
+
+Multimodal Live API を @google/generative-ai-js に入れるための PR です。
+リアクションしていただけると嬉しいです！
+https://github.com/google-gemini/generative-ai-js/pull/306
 
 
