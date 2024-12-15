@@ -3,7 +3,7 @@ title: "Gemini 2.0 Flash Live API 超解説" # 記事のタイトル
 emoji: "🗣️" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["gemini", "websocket"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 Gemini 2.0 Flash やばいですよね。その目玉機能の一つに、リアルタイムの音声動画通信があります。動画と音声で LLM とリアルタイム会話できるのです！
@@ -13,6 +13,15 @@ Python の SDK しか提供されていないので、JavaScript 大好き nakas
 
 TypeScript でサンプルコードを書いていきます。
 
+## 対象読者
+
+- Multimodal Live API について気になっている人
+- Multimodal Live API を使いたいけど情報がなくて困っている人
+- Multimodal Live API を JS で使いたい人
+
+かつ
+- Gemini API をいじったことがある人
+
 ## 概要
 
 ### Multimodal Live API ってどんなの
@@ -21,6 +30,10 @@ TypeScript でサンプルコードを書いていきます。
 従来の LLM は、1プロンプトに対して1レスポンスなのはわかりますよね。それに対して、Live Streaming では、通常の会話のようにユーザーとモデルが任意のタイミングでメッセージを送ることができます。
 さらに、ユーザーはテキストだけではなく、音声や動画を送ることができます。例えばカメラを知らない花にかざして「この花の名前は？」のように口で聞くことができます。
 また、モデルはテキストだけでなく音声で応答できます。「こんにちは」と音声で話すと「こんにちは」と音声で返してくれたりします。
+
+おすすめ記事:
+https://zenn.dev/yamato_snow/articles/0aada24da44bd4
+https://www.youtube.com/watch?v=9hE5-98ZeCg
 
 ### 通信方法
 
@@ -346,7 +359,7 @@ const functions = {
     return Date.now()
   }
 }
-async function handleToolCallMessafe(message: ToolCallMessage) {
+async function handleToolCallMessage(message: ToolCallMessage) {
   for (const functionCall of message.toolCall.functionCalls) {
     ws.send(JSON.stringify({
       toolResponse: {
