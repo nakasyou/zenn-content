@@ -311,7 +311,7 @@ ws.send(JSON.strinfify({
   realtimeInput: {
     mediaChunks: [
       {
-        type: 'audio/pcm;rate=16000',
+        mimeType: 'audio/pcm;rate=16000',
         data: base64Pcm // base64 形式でエンコードされた pcm データ
       }
     ]
@@ -329,7 +329,7 @@ ws.send(JSON.strinfify({
   realtimeInput: {
     mediaChunks: [
       {
-        type: 'image/jpeg',
+        mimeType: 'image/jpeg',
         data: base64Jpeg // base64 形式でエンコードされた jpeg データ
       }
     ]
