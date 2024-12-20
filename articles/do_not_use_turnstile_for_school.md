@@ -11,17 +11,17 @@ Cloudflare Turnstile、または Cloudflare の Under Attack Mode を 学校向�
 ## 学校のフィルタリングとの相性
 
 あなたが Cloudflare を用いてサイトを公開するとき、ユーザー A,B,C は以下のようにアクセスします。いたってシンプルですね。
-<img width="581" alt="IMG_4242" src="https://github.com/user-attachments/assets/c5bc213c-c26b-400e-9295-b3c352fd0578" />
+![IMG_4242](https://github.com/user-attachments/assets/c5bc213c-c26b-400e-9295-b3c352fd0578)
 
 学校のフィルタリングは、ほとんどの場合、プロキシを用いて一箇所にリクエストをあつめて、そこでブラックリストと照らし合わせてブロックします。
 要するに、生徒のリクエストを仲介するのです。図に表すと以下のようになります:
 
-<img width="581" alt="IMG_4243" src="https://github.com/user-attachments/assets/8c181623-156a-4947-a2c1-872ab7442b2f" />
+![IMG_4243](https://github.com/user-attachments/assets/8c181623-156a-4947-a2c1-872ab7442b2f)
 
 ユーザー A,B,C のリクエストを全て同じプロキシを通じて Cloudflare にリクエストを投げています。つまり、この場合では Cloudflare からは 1 人で 3 人分のリクエストを送っているように見えるのです。
 
 実際のフィルタリングシステムは、大きな会社が担当しています。そのため、日本全国の学校を顧客にしていることが多いです。これによって、以下のようなことが起こります:
-<img width="1032" alt="IMG_4244" src="https://github.com/user-attachments/assets/17a6ddb3-4003-4809-a317-a93fc4bbbfb1" />
+![IMG_4244](https://github.com/user-attachments/assets/17a6ddb3-4003-4809-a317-a93fc4bbbfb1)
 
 1IP アドレスで無数のアカウントを用いているように勘違いをして、Cloudflare は BOT または悪質なハッカーだと認識します。
 
