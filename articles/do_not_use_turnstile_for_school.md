@@ -92,6 +92,9 @@ https://x.com/goisaki/status/1868804892909093158
 これは [InterSafe GatewayConnection](https://www.alsi.co.jp/security/isgc/) というフィルタリングのようで、そのウェブサイトを見て推測するに私の環境と同様にプロキシを用いたものだと考えられます。
 
 
+同じ InterSafe GatewayConnection で同様の事情を確認できました:
+https://x.com/_Sora_Akatuki/status/1870430357704822784
+
 ### 何回かチェックボタンを試したら？
 
 無限ループです。60回くらいやっても無駄です。
