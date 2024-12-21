@@ -89,6 +89,7 @@ https://x.com/goisaki/status/1868804892909093158
 
 また、慶應義塾大学湘南藤沢キャンパスのフィルタリング済み端末でも同様に再現できるようです:
 ![IMG_4255](https://github.com/user-attachments/assets/9171e38b-c8eb-4448-bb4b-354f3d3efb39)
+これは [InterSafe GatewayConnection](https://www.alsi.co.jp/security/isgc/) というフィルタリングのようで、そのウェブサイトを見て推測するに私の環境と同様にプロキシを用いたものだと考えられます。
 
 
 ### 何回かチェックボタンを試したら？
