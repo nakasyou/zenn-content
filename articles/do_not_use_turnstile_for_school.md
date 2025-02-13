@@ -5,6 +5,13 @@ type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["cloudflare", "turnstile"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: true # 公開設定（falseにすると下書き）
 ---
+
+## 2025.2.14 追記
+
+直ったことが確認されました！何回もチェックボックスを押しても通らなかったのが、1回の作業で通るようになりました！！
+
+---
+
 過激なタイトルですみません。
 Cloudflare Turnstile (Cloudflare の CAPTHCA のようなもの)、または Cloudflare の [Under Attack Mode](https://developers.cloudflare.com/fundamentals/reference/under-attack-mode/) を 学校向けアプリに使わない方がいい理由を紹介します。
 使ってしまうと、もしかしたら大量のユーザーを失うかもしれません。
