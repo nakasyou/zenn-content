@@ -95,7 +95,7 @@ https://zenn.dev/mameta29/articles/7aa221046a87ff#対策案
 
 ### 安全な npm i
 
-Deno では、`deno i` の代わりに `npm i` を使えます。
+Deno では、`npm i` の代わりに `deno i` を使えます。
 
 Deno は、明示的に許可を与えない限り依存パッケージの postinstall 等を実行しません！
 ![IMG_4487](https://github.com/user-attachments/assets/6ac72061-ae41-4c24-8b0f-df592eb8cabf)
