@@ -113,3 +113,9 @@ deno \
   --unstable-unsafe-proto \
   server/app.js
 ```
+![IMG_4491](https://github.com/user-attachments/assets/90d56305-dcca-4c2b-bad8-083ab5c29213)
+こんな感じで環境変数、ファイルシステム、ネットワークなどのアクセスはユーザーの許可なしではできません。ブラウザはサンドボックスで、ユーザーの許可なしに通知を送信したり位置情報を送信できません。同様なことがサーバーサイド JavaScript でできるという強みを持つのが Deno です！
+
+許可したいなら Y、拒否したいなら n を入力します。流石に Chrome のプロファイルへのアクセスは気持ち悪いので拒否してみましょう。
+![IMG_4492](https://github.com/user-attachments/assets/d1f63a04-35c1-4060-82db-871b48d1be2a)
+いいですね。
