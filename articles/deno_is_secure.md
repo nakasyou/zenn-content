@@ -23,6 +23,12 @@ https://zenn.dev/mameta29/articles/7aa221046a87ff
 Deno を知らない人のために簡単に説明しましょう。Deno は、Node.js のような JavaScript ランタイムです。要は、JavaScript コードをブラウザ以外で動かすためのソフトウェアです。
 Node.js と異なるポイントはいくつかありますが、その一つに「セキュア」という点があります。ブラウザにおいて、悪質なサイトにアクセスして、全ての権限を拒否されたとき、パソコンがハッキングされるとかいうことはありません。しかし、Node.js で実行する JavaScript の権限は大きく、勝手にファイルの読み書きしたりコマンド実行したりできてしまいます。Deno は、ブラウザのように、安全な状態で JavaScript コードの実行を可能にします。結構大きい利点ですよね。
 
+### インストール
+
+https://docs.deno.com/runtime/
+
+最近 `npm i -g deno` でもできるようになりました。
+
 ## マルウェアの入手
 
 hxxps://github[.]com/arsantin/cometec[^get]
