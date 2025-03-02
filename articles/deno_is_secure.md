@@ -13,6 +13,11 @@ https://zenn.dev/mameta29/articles/7aa221046a87ff
 
 経済制裁をすり抜けて資金を入手する仮定の一部として、Web3 開発者に悪意のあるプロジェクトでお金を稼いでいるのでしょう。これらの資金はミサイル開発にも使われかねません。これは日本の安全保障において大きな問題です。そのため、Deno を用いて北朝鮮のミサイル開発を抑止しましょう！
 
+## 対象読者
+
+- あのマルウェアが何をしているのか気になる人
+- Web3/JavaScript 開発者
+
 ## Deno とは？
 
 Deno を知らない人のために簡単に説明しましょう。Deno は、Node.js のような JavaScript ランタイムです。要は、JavaScript コードをブラウザ以外で動かすためのソフトウェアです。
@@ -97,32 +102,14 @@ deno i
 
 ### スクリプトを実行する
 
-#### 下準備
-
-該当のプロジェクトの package.json を Deno を使うように置き換えましょう。
-```diff:package.json
-  "scripts": {
--     "start": "node server/app.js | react-scripts start",
-+     "start": "deno server/app.js | deno npm:react-scripts start",
--     "build": "react-scripts build",
-+     "build": "deno npm:react-scripts build",
--     "test": "react-scripts test",
-+     "test": "deno npm:react-scripts test",
--     "eject": "react-scripts eject"
-+     "test": "deno npm:react-scripts test",
-  },
+問題のファイルは `server/app.js` です。実行してみましょう。
+```shell
+deno \
+  --allow-read=./  \
+  --unstable-bare-node-builtins \
+  --unstable-detect-cjs \
+  --unstable-node-globals \
+  --unstable-sloppy-imports \
+  --unstable-unsafe-proto \
+  server/app.js
 ```
-
-次に、Node.js との互換性を高めるために `deno.json` を作成して、以下のように記述します。
-```json:deno.json
-{
-  "unstable": [
-    "bare-node-builtins",
-    "detect-cjs",
-    "node-globals",
-    "sloppy-imports",
-    "unsafe-proto"
-  ]
-}
-```
-
