@@ -25,7 +25,7 @@ Node.js と異なるポイントはいくつかありますが、その一つに
 
 ## マルウェアの入手
 
-https://github[.]com/arsantin/cometec[^get]
+hxxps://github[.]com/arsantin/cometec[^get]
 
 [^get]: https://zenn.dev/waki285/articles/web3-malware-deobfuscated#マルウェアの入手
 
