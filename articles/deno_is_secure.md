@@ -128,154 +128,157 @@ Warning Resolving "fs" as "node:fs" at file:///workspace/cometec/server/app.js:1
 Warning Resolving "path" as "node:path" at file:///workspace/cometec/server/app.js:2:22. If you want to use a built-in Node module, add a "node:" prefix.
 Warning Resolving "http" as "node:http" at file:///workspace/cometec/server/app.js:3:22. If you want to use a built-in Node module, add a "node:" prefix.
 Warning Resolving "crypto" as "node:crypto" at file:///workspace/cometec/server/config/util.js:1:22. If you want to use a built-in Node module, add a "node:" prefix.
+
 ┏ ⚠️   Deno requests  env access to "FORCE_COLOR" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "FORCE_COLOR".
+
 ┏ ⚠️   Deno requests  env access to "TERM" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "TERM".
+
 ┏ ⚠️   Deno requests  env access to "CI" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "CI".
+
 ┏ ⚠️   Deno requests  env access to "TEAMCITY_VERSION" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "TEAMCITY_VERSION".
+
 ┏ ⚠️   Deno requests  env access to "COLORTERM" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "COLORTERM".
+
 ┏ ⚠️   Deno requests  env access to "TERM_PROGRAM" .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access to "TERM_PROGRAM".
+
 ┏ ⚠️   Deno requests  env access  .
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-env
 ┠─  Run again with --allow-env to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all env permissions) > y
-
 ✅  Granted env access.
+
 WARNING: No configurations found in configuration directory:/workspace/cometec/config
 WARNING: To disable this warning set SUPPRESS_NO_CONFIG_WARNING in the environment.
+
 ┏ ⚠️   Deno requests  net access to "0.0.0.0:8510" .
 ┠─ Requested by ` Deno.listen() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-net
 ┠─  Run again with --allow-net to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all net permissions) > y
-
 ✅  Granted net access to "0.0.0.0:8510".
+
 ┏ ⚠️   Deno requests  net access to "0.0.0.0:8000" .
 ┠─ Requested by ` Deno.listen() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-net
 ┠─  Run again with --allow-net to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all net permissions) > y
-
 ✅  Granted net access to "0.0.0.0:8000".
+
 server is listening on port 8000
+
 ┏ ⚠️   Deno requests  sys access to "hostname" .
 ┠─ Requested by ` Deno.hostname() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-sys
 ┠─  Run again with --allow-sys to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all sys permissions) > y
-
 ✅  Granted sys access to "hostname".
+
 ┏ ⚠️   Deno requests  sys access to "homedir" .
 ┠─ Requested by ` node:os.homedir() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-sys
 ┠─  Run again with --allow-sys to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all sys permissions) > y
-
 ✅  Granted sys access to "homedir".
+
 ┏ ⚠️   Deno requests  read access to "/home/gitpod/.config/google-chrome" .
 ┠─ Requested by ` Deno.lstatSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to "/home/gitpod/.config/google-chrome".
+
 ┏ ⚠️   Deno requests  read access to "/home/gitpod/.config/BraveSoftware/Brave-Browser" .
 ┠─ Requested by ` Deno.lstatSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to "/home/gitpod/.config/BraveSoftware/Brave-Browser".
+
 ┏ ⚠️   Deno requests  read access to "/home/gitpod/.config/opera" .
 ┠─ Requested by ` Deno.lstatSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to "/home/gitpod/.config/opera".
-┏ ⚠️   Deno requests  read access to "/home/gitpod/AppData/Roaming/Mozilla/Firefox/Profiles" .
+
+┏ ⚠️   Deno requests  read access to "/home/gitpod/AppData/Roaming/Mozilla/Firefox/Profiles".
 ┠─ Requested by ` Deno.lstatSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to "/home/gitpod/AppData/Roaming/Mozilla/Firefox/Profiles".
+
 ┏ ⚠️   Deno requests  read access to "/home/gitpod/.config/Exodus/exodus.wallet" .
 ┠─ Requested by ` Deno.lstatSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to "/home/gitpod/.config/Exodus/exodus.wallet".
+
 ┏ ⚠️   Deno requests  net access to "94.131.97.195:1224" .
 ┠─ Requested by ` Deno.connect() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-net
 ┠─  Run again with --allow-net to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all net permissions) > y
-
 ✅  Granted net access to "94.131.97.195:1224".
+
 ┏ ⚠️   Deno requests  write access to "/home/gitpod/.npl" .
 ┠─ Requested by ` Deno.openSync() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-write
 ┠─  Run again with --allow-write to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all write permissions) > y
-
 ✅  Granted write access to "/home/gitpod/.npl".
+
 ┏ ⚠️   Deno requests  read access to <exec_path> .
 ┠─ Requested by ` Deno.execPath() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
 ┠─  Learn more at:  https://docs.deno.com/go/--allow-read
 ┠─  Run again with --allow-read to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) > y
-
 ✅  Granted read access to <exec_path>.
+
 ┏ ⚠️   Deno requests  run access to "/bin/sh" .
 ┠─ Requested by ` Deno.Command().spawn() ` API.
 ┠─ To see a stack trace for this prompt, set the DENO_TRACE_PERMISSIONS environmental variable.
@@ -288,8 +291,11 @@ server is listening on port 8000
 
 以上が全部「y」した場合の実行結果です。展開すると表示されます。
 
-ウォレット探索しまくって、94.131.97.195:1224 とかいう怪しすぎる IP アドレスに送信してるように読み取れます。Deno なら防げますね。
+Google Chrome, Opera, Brave, Firefox のプロファイルを抜き、Exodus のウォレットも抜き、94.131.97.195:1224 とかいう怪しすぎるサーバーに送信してるように読み取れます。さらに、sh コマンドも実行しています。何をするかはわかりませんが。
+
+Deno なら防げますね。
 
 ## まとめ
 
-怪しいプロジェクトを動かすとき、Deno でまず動かしてみましょう！！
+怪しいプロジェクトを動かすときのセキュリティ対策の一環として、北のミサイル開発を抑止するために、Deno でまず動かしてみましょう！！
+
