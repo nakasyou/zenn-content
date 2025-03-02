@@ -122,9 +122,7 @@ deno \
 ![IMG_4492](https://github.com/user-attachments/assets/d1f63a04-35c1-4060-82db-871b48d1be2a)
 いいですね。
 
-<details>
-<summary>出力結果</summary>
-  
+:::details 全部許可したときのログ 
 ```output
 Warning Resolving "fs" as "node:fs" at file:///workspace/cometec/server/app.js:1:20. If you want to use a built-in Node module, add a "node:" prefix.
 Warning Resolving "path" as "node:path" at file:///workspace/cometec/server/app.js:2:22. If you want to use a built-in Node module, add a "node:" prefix.
@@ -288,8 +286,7 @@ server is listening on port 8000
 ┠─  Run again with --allow-run to bypass this prompt.
 ┗  Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all run permissions) > y
 ```
-
-</details>
+:::
 
 以上が全部「y」した場合の実行結果です。展開すると表示されます。
 
