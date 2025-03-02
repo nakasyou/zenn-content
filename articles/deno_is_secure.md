@@ -30,7 +30,7 @@ hxxps://github[.]com/abdibrokhim/web3-online-chess-game
 
 まず、プロジェクトのセットアップ時に `npm i` をすると思います。その時点から任意のコードを実行できるチャンスは北朝鮮にあるのです。
 例えば、`package.json` に `postinstall` スクリプトがある場合、
-```json
+```json:package.json
 {
   "scripts": {
     "postinstall": "rm -rf ~/Desktop"
@@ -48,7 +48,7 @@ Linux で実行するとあなたのデスクトップを破壊できます。
 仮に、preinstall/install/postinstall を削除したとして、リスクはまだあります。依存パッケージの postinstall です。
 
 例えば
-```json
+```json:package.json
 {
   "dependencies": {
     "super-evil-package": "*"
@@ -85,10 +85,44 @@ https://zenn.dev/mameta29/articles/7aa221046a87ff#対策案
 Deno では、`deno i` の代わりに `npm i` を使えます。
 
 Deno は、明示的に許可を与えない限り依存パッケージの postinstall 等を実行しません！
-プロジェクトルートの package.json についている postinstall 等は、実行されません。しかし、今後のアップデートで実行されるようになる可能性があるので、念のため精査しておきましょう。
-```ansi
-\u001b[0;40m\u001b[1;32mThat's some cool formatted text right?\u001b[0m
-or
-\u001b[1;40;32mThat's some cool formatted text right?\u001b[0m
+![IMG_4487](https://github.com/user-attachments/assets/6ac72061-ae41-4c24-8b0f-df592eb8cabf)
+
+プロジェクトルートの package.json についている postinstall 等も実行されませんが、これは今後のアップデートで実行されるようになる可能性があるので、念のため精査しておきましょう。依存関係のものは大丈夫です。
+
+では、deno i を実行しましょう。
+
+```shell
+deno i
+```
+
+### スクリプトを実行する
+
+#### 下準備
+
+該当のプロジェクトの package.json を Deno を使うように置き換えましょう。
+```diff:package.json
+  "scripts": {
+-     "start": "node server/app.js | react-scripts start",
++     "start": "deno server/app.js | deno npm:react-scripts start",
+-     "build": "react-scripts build",
++     "build": "deno npm:react-scripts build",
+-     "test": "react-scripts test",
++     "test": "deno npm:react-scripts test",
+-     "eject": "react-scripts eject"
++     "test": "deno npm:react-scripts test",
+  },
+```
+
+次に、Node.js との互換性を高めるために `deno.json` を作成して、以下のように記述します。
+```json:deno.json
+{
+  "unstable": [
+    "bare-node-builtins",
+    "detect-cjs",
+    "node-globals",
+    "sloppy-imports",
+    "unsafe-proto"
+  ]
+}
 ```
 
