@@ -14,7 +14,11 @@ LLM を活用したサービスを使ったり作ったりするとき、どの 
 コンテキストウィンドウや速度など、各 LLM の特徴を示すもの、いくつ思い浮かびますか？
 公開日、料金、ベンチマークでわかる性能、最大出力長、マルチモーダルかどうか、Reasoning できるかどうか... など、大量にありますよね。それらを総合的に比較してモデルを選んでいくわけですが、そもそもそれらの情報収集が大変です。
 
-例えば、Gemini 2.5 Flash と Command A を比較したいとします。
+例えば、Gemini 2.5 Flash と Command A を比較したいとします。情報源は、以下のようになっています。
+| title | Gemini 2.5 Flash | Command A |
+| --- | --- | --- |
+| Context Window | Docs (検索結果の一番上のブログは「1 millon」としか書いていない) | Docs (「Cohere Command A context window」で出てこない ) |
+| 料金 | | |
 
 これらの問題がなぜ起こるかというと、各社のモデル情報提供形式が異なり、さらに各社の中でも情報が分散しているからです。それを一元管理するのが LMSpecs です。
 
@@ -33,7 +37,15 @@ https://lmspecs.pages.dev/
 
 https://x.com/goisaki/status/1895392596916400611
 
+単一のベンチマークを使って、賢いモデルを選択するのは本当に賢明ですか? 実際は、予算と照らし合わせる必要があると思います。
 LMSpecs なら、コスト対知性のようなグラフを描画してダウンロードできます。このグラフは任意の縦軸、横軸、モデルを選択できます。
 ![image](https://github.com/user-attachments/assets/a020c780-feae-43bd-8048-fef50a17cbf8)
 
-### 
+### モデルの情報を閲覧する
+
+![image](https://github.com/user-attachments/assets/5c694ff8-edc3-4868-b864-756bc68ffe0d)
+
+いろいろなところからモデルの情報を収集する手間を省くことができます。
+
+また、モデルを横並びで比較することも可能です。
+![image](https://github.com/user-attachments/assets/912fec73-8536-4215-8e7c-43db46a6e8a2)
