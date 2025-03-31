@@ -29,7 +29,11 @@ JSON を人間が閲覧するのは不便です。そのため、Web ビュー�
 
 https://lmspecs.pages.dev/
 
-## なぜコスト対知性がLLMの評価に使われないのだろうか
+### なぜコスト対知性がLLMの評価に使われないのだろうか
 
 https://x.com/goisaki/status/1895392596916400611
 
+LMSpecs なら、コスト対知性のようなグラフを描画してダウンロードできます。このグラフは任意の縦軸、横軸、モデルを選択できます。
+![image](https://github.com/user-attachments/assets/a020c780-feae-43bd-8048-fef50a17cbf8)
+
+### 
