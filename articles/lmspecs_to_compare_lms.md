@@ -2,7 +2,7 @@
 title: "中学生がLLMの選定プラットフォーム作ったので使って" # 記事のタイトル
 emoji: "🤖" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["llm", "deno", "lm"] # タグ。["markdown", "rust", "aws"]のように指定する
+topics: ["llm", "deno", "vite", "solid.js"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: false # 公開設定（falseにすると下書き）
 ---
 今日で中学生を名乗れるのが最後なので、名乗りたいと思います。
