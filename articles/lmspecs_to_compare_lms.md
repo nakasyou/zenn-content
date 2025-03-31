@@ -29,7 +29,7 @@ LMSpecs では、各モデルの情報が GitHub 上の JSON で管理されて�
 これを用いて、モデルを比較するための Excel スプレッドシートを作ることだってできます。
 
 ![image](https://github.com/user-attachments/assets/0818f72b-a09a-4db7-9aa2-e4d0631e49ef)
-![image](https://github.com/user-attachments/assets/744eb212-9903-49a9-9dd0-35864afc3b1d)
+![image](https://github.com/user-attachments/assets/b639b3eb-f166-4c90-bc17-7f795b06b1b8)
 
 ## LMSpecs as a viewer
 
