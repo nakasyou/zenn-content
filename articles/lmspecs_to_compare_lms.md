@@ -3,12 +3,14 @@ title: "中学生がLLMの選定プラットフォーム作ったので使って
 emoji: "🤖" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["llm", "deno", "vite", "solid.js"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 今日で中学生を名乗れるのが最後なので、名乗りたいと思います。
 
 LLM を活用したサービスを使ったり作ったりするとき、どの LLM を使うか迷ったことはありませんか？
 選定するには、各モデルの比較が必要です。その比較をするプラットフォームを作成したので、紹介したいと思います。
+
+https://github.com/nakasyou/lmspecs
 
 ## LLM の情報収集、大変じゃない？
 
