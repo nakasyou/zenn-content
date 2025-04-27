@@ -3,7 +3,7 @@ title: "Why solid.js" # 記事のタイトル
 emoji: "🐡" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["solidjs"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 Solid.js 大好きな nakasyou が Solid.js の内部構造について説明します。Solid.js クローン作っていたので詳しいはずです。
