@@ -48,7 +48,7 @@ import { component$, useSignal } from '@builder.io/qwik'
 export default component$(() => {
   const count = useSignal(0)
   return <button onClick$={() => count.value++}>
-    {count}
+    {count.value}
   </button>
 })
 ```
@@ -67,7 +67,9 @@ const app_component_Ncbm0Trxwgc = ()=>{
             hi: 168,
             displayName: "app.tsx_app_component_button_onClick"
         }, [
-            count
+            _fnSignal((p0)=>p0.value, [
+                count
+            ])
         ])
     }, count, 3, "4e_0", {
         fileName: "app.tsx",
