@@ -3,7 +3,7 @@ title: 【React】 Scratch のフロントエンドをハックしよう" # 記�
 emoji: "🔨" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["scratch", "react"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 https://scratch.mit.edu/ は React で書かれています。これをハックしてみましょう。
@@ -19,7 +19,7 @@ const rootContainer = app._reactRootContainer
 console.log(rootContainer)
 ```
 ブラウザのコンソールで実行してみると、以下のような結果が得られます。
-![image](https://gist.github.com/user-attachments/assets/b1ad136d-9bd2-49c7-96fb-6fe2ef44fde9)
+![](https://storage.googleapis.com/zenn-user-upload/de0b41c6d6d2-20250506.png)
 
 ## Fiber ノードを取得する
 
@@ -28,7 +28,7 @@ React は内部的に Fiber というグラフ構造のデータを使用して 
 const rootFiberNode = rootContainer._internalRoot.current
 console.log(rootFiberNode)
 ```
-![image](https://gist.github.com/user-attachments/assets/c0a4e07a-278b-468a-9a08-08648453d1fd)
+![](https://storage.googleapis.com/zenn-user-upload/e677909f2b78-20250506.png)
 
 しかし、これはルートの Fiber ノードであり、実際のコンポーネントの Fiber ノードはその子供にあります。これを取得するためには、`rootFiberNode.child` を使います。
 ```js
@@ -42,7 +42,7 @@ const scratchState = appFiberNode.memoizedProps.store.getState()
 
 console.log(scratchState)
 ```
-![image](https://gist.github.com/user-attachments/assets/7fee7205-c9ab-49b8-b669-001c48cf278c)
+![](https://storage.googleapis.com/zenn-user-upload/56fda19b6a79-20250506.png)
 いくつかのストアが組み合わさっていますが、重要なのは `scratchGui` というストアです。これを使うことで、Scratch エディタにアクセスできます。
 
 ## vm を使って遊ぼう
@@ -52,16 +52,16 @@ Scratch は、Scratch VM という仮想マシンを利用してプロジェク�
 const vm = scratchState.scratchGui.vm
 console.log(vm)
 ```
-![image](https://gist.github.com/user-attachments/assets/4d48dfb9-0b93-43e9-9059-e175d1ee4e8f)
+![](https://storage.googleapis.com/zenn-user-upload/4acd8b820acd-20250506.png)
 
 vm を取得すればいろいろなことができます。例えば、コンソールからターボモードを有効にすることができます。
 ```js
 vm.runtime.turboMode = true
 ```
-![画面録画 2025-05-06 134852](https://gist.github.com/user-attachments/assets/08726cf0-4793-4c1c-b682-13e860beab91)
+![画面録画 2025-05-06 134852](https://storage.googleapis.com/zenn-user-upload/0fbf0d9205bd-20250506.gif)
 
 また、このように変数を外部から変更できます。
-![画面録画 2025-05-06 135826](https://gist.github.com/user-attachments/assets/7c36a5fd-1170-450c-9d53-2f02a9a7bf1a)
+![画面録画 2025-05-06 135826](https://storage.googleapis.com/zenn-user-upload/3aa8d28d6b9d-20250506.gif)
 
 ## ストアからアクセスできない値を変更する
 
@@ -128,6 +128,7 @@ const cloudManagerHOC = cloudManagerHOCFiber.elementType.prototype
 cloudManagerHOC.disconnectFromCloud = () => {}
 ```
 これで「中を見る」を押したとしても、クラウド変数の接続が切断されなくなります。
+![](https://storage.googleapis.com/zenn-user-upload/f633177a1b7c-20250506.gif)
 
 このように、React の Fiber ノードを使うことで、ストアからアクセスできない値も変更することができます。
 
