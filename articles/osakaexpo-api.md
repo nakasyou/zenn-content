@@ -258,7 +258,7 @@ channel は予約の方法を表します。以下の enum を見てもらえば
 * `channel`: 予約方法を指定
 
 例えば、閉幕日である 10/13 の null² のナオライモードの空き情報の結果は以下のような JSON です:
-```jsonc
+```json
 {
   "event_code": "IC0C",
   "event_name": "Signature Pavilion OCHIAI Yoichi 'null²' Naorai Mode *10 min before the reservation start time",
@@ -305,7 +305,7 @@ channel は予約の方法を表します。以下の enum を見てもらえば
 
 エンドポイントは、`https://ticket.expo2025.or.jp/api/d/user_event_reservations` です。
 POST で `application/json` を送信します。例は以下です:
-```jsonc
+```json
 {
   "ticket_ids": ["T1CKET", "T2CKET"], // チケット ID の配列。これがカンマ区切りかどうか夜悩んだのはいい思い出
   "entrance_date": "20251013", // 入場日
