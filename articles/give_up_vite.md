@@ -95,8 +95,14 @@ VS Code のコンパイルが 77.8s から 7.5s に短縮され、 10.4 倍の�
 
 ### rolldown-vite リリース
 
-Vite のベースを esbuild/rollup から Rust 製の rolldown に置き換えた rolldown-vite がリリースされました。
-Vite は開発サーバーで esbuild を使い、ビルドで rollup を使っていますが、これを両方 rolldown に置き換えることで開発時とビルド時の差を減らすことができます。
+Vite はそのビルドのベースに esbuild/rollup を使用しています。
+Rust 製の Rollup 互換バンドラの Rolldown がありますが、
+https://rolldown.rs/
+これを搭載した rolldown-vite がリリースされました。
+
+Vite は開発サーバーで esbuild を使い、ビルドで rollup を使っていますが、これを両方 rolldown に置き換えることで開発時とビルド時の差を減らすことができるらしいです。
+
+Vite は開発時にはバンドルしないことによって起動速度などの高速化を図っています。しかし、ブラウザの ESM 解決速度を Rolldown のようなネイティブバンドラが上回れば、バンドルしたほうが高速らしいです。これを実践しているのが Turborepo や Bun ですが、将来的には Rolldown の統合によってそれを実現するようです。
 
 ---
 
