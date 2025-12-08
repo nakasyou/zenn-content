@@ -105,7 +105,7 @@ Vite は開発サーバーで esbuild を使い、ビルドで rollup を使っ�
 
 Vite は開発時にはバンドルしないことによって起動速度などの高速化を図っています。しかし、ブラウザの ESM 解決速度を Rolldown のようなネイティブバンドラが上回れば、バンドルしたほうが高速らしいです。これを実践しているのが Turborepo や Bun ですが、将来的には Rolldown の統合によってそれを実現するようです。
 
----
+### 未踏ジュニア: tsgo 見送り
 
 未踏ジュニアでは、tsgo は自分でビルドする必要があり、また実験的すぎたのでプロジェクトでは見送りました。
 また、rolldown-vite は存在を把握していませんでした。
@@ -118,7 +118,7 @@ https://rspack.rs/blog/rspack-next-partner
 
 `next-rspack` というライブラリがリリースされ、Next.js で Rspack を使うことができるようになりました。
 
----
+### 未踏ジュニア: 変化なし
 
 Next.js をやめていたのでプロジェクトには直接関係ありませんでした。
 
@@ -144,7 +144,7 @@ https://bun.sh/blog/bun-v1.2.14#react-flag-for-bun-init
 
 このような選択画面が出てきて、
 
----
+### 未踏ジュニア: tsgo 見送りと Bun React 導入
 
 未踏ジュニアでは、tsgo を プロジェクトに導入してみましたが、まだ不安定でした。
 
@@ -177,7 +177,7 @@ Environment API は、従来の Client/SSR の区別をやめて、プラグイ�
 Cloudflare の Vite Plugin はこの仕組みを利用しています。
 https://developers.cloudflare.com/workers/vite-plugin/
 
----
+### 未踏ジュニア: rolldown-vite 提案
 
 未踏ジュニアではちょうど期間の始まりを示す「ブースト合宿」があり、メンバーと初めて対面しました。
 
@@ -200,7 +200,7 @@ https://svelte.dev/blog/whats-new-in-svelte-july-2025
 
 SvelteKit が rolldown-vite をサポートしました。しかし、この時点では Tree-Shaking がうまく動かなかったそうです。
 
----
+### 未踏ジュニア: rolldown-vite 導入
 
 未踏ジュニアのプロジェクトで Bun の開発サーバーがクラッシュしまくっていて困ったので、こっそり rolldown-vite に変えてしまいました。こんなに話題になっているのに変えないのはもったいない。
 
@@ -221,7 +221,7 @@ https://svelte.dev/blog/whats-new-in-svelte-august-2025
 
 Svelte の Vite プラグインである vite-plugin-svelte が、rolldown-vite をサポートしました。これにより、SvelteKit でも安定して rolldown-vite を使うことができるようになりました。
 
----
+### 未踏ジュニア: 変化なし
 
 React を使っていたことや、Biome を使用していたのでツールチェーン関係はほとんど 8 月は変更しませんでした。
 
@@ -237,7 +237,7 @@ https://github.com/vitejs/vite/pull/20820
 
 また、Qwik が Playground の repl で rolldown を使い始めたり、date-fns が oxc を使い始めたりと、VoidZero 系のツールチェーンの採用が増えていった月でもあります。
 
----
+### 未踏ジュニア: 変化なし
 
 未踏ジュニアでは、rolldown-vite を使い続けました。
 
@@ -282,13 +282,13 @@ Vite+ は、Web のための統合されたツールチェーンです。
 
 Vite とは別のプロダクトとして、Vite は MIT ライセンスのまま維持されます。
 
----
+### 未踏ジュニア: 変化なし
 
 Bun の開発サーバーがまだ心配だったので、rolldown-vite の仕様を継続しました。Vite+ は公開していないので、組み込みたかったのですが断念しました。
 
 ## 11 月
 
-### 未踏ジュニア
+### 未踏ジュニア: 成果報告会
 
 未踏ジュニアでは、11/3 に成果報告会としてプロジェクトの未踏ジュニアとしての期間の終了のイベントを行います。
 
