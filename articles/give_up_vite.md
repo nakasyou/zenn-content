@@ -140,7 +140,7 @@ https://bun.sh/blog/bun-v1.2.14#react-flag-for-bun-init
 
 ![](https://storage.googleapis.com/zenn-user-upload/ccee9e1e8e7f-20251208.png)
 
-このような選択画面が出てきて、
+このような選択画面が出てきて、まさに Bun が React 開発ツールでもあることを前面に押し出している感じがあります。
 
 ### 未踏ジュニア: tsgo 見送りと Bun React 導入
 
