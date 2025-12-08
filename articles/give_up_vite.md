@@ -319,6 +319,6 @@ Vite+ にも組み込まれることが予想されます。VoidZero のスタ�
 
 まだ "vite" を使っているのですか？？？？
 
-紹介してきたように、安定しているので "bun add -D rolldown-vite" か "bun add -D vite@8.0.0-beta.0" を使いましょう！！
+紹介してきたように、安定しているので `bun add -D rolldown-vite` か `bun add -D vite@8.0.0-beta.0` を使いましょう！！
 
 来年もどのようにバンドラーが進化していくのか楽しみですね
