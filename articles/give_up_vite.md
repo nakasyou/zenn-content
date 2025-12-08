@@ -3,7 +3,7 @@ title: "え？まだ \"vite\" 使ってるの？ バンドラー 2025 まとめ"
 emoji: "⚡" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["vite", "farm", "bun", "rolldown", "esbuild"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
+published: true # 公開設定（falseにすると下書き）
 ---
 
 未踏ジュニア Advent Calendar 2025 の記事です。
