@@ -32,7 +32,7 @@ https://adventar.org/calendars/11697
 ### Rspack v1.2 リリース
 
 Rust 製の Webpack 互換バンドラである Rspack の v1.2 がリリースされました。
-https://rspack.uihtm.com/blog/announcing-1-2#persistent-cache
+https://rspack.rs/blog/announcing-1-2#persistent-cache
 
 ビルド過程のキャッシュをすることができるようになり、大幅に開発を高速化できるようになりました。
 
