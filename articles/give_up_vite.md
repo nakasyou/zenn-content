@@ -21,6 +21,7 @@ https://adventar.org/calendars/11697
 
 最初は Vite を使っていたのですが、開発サーバーの起動時間がこのくらいかかってしまいます。
 ![VITE v6.0.5  ready in 31012 ms という出力のスクショ](https://storage.googleapis.com/zenn-user-upload/aaa163e31526-20251208.png)
+毎回の起動に 30 秒かかるという地獄でした。
 
 画像編集ソフトは重いので、何回もプロジェクトで最新のバンドラに切り替えまくりました。
 その履歴を振り返ることで 2025 年のバンドラ事情も振り返れたらと思います。バンドラだけでなくツールチェーンも含めて振り返ります。
@@ -90,7 +91,7 @@ https://rspack.rs/blog/announcing-1-3#performance-improvements
 これはバンドラではないのですが、TypeScript を Go に移植することでパフォーマンスを向上させる typescript-go (=tsgo) が公開されました。
 https://devblogs.microsoft.com/typescript/typescript-native-port
 
-VS Code のコンパイルが 77.8s から 7.5s に短縮され、 10.4 倍の高速化をこの時点で達成しています。
+VS Code 自体のコンパイルが 77.8s から 7.5s に短縮され、 10.4 倍の高速化をこの時点で達成しています。
 
 
 ### rolldown-vite リリース
