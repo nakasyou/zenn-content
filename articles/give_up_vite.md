@@ -212,6 +212,24 @@ SvelteKit が rolldown-vite をサポートしました。しかし、この時�
 
 そうするとあらびっくり、高速かつ超安定で、本当にベータ版なのかというレベルで動作しました。クラッシュもしません。
 
+#### バックエンドにも導入した
+
+ついでに、フロントエンドだけでなくバックエンドにも Vite を導入しました。`vite dev` で開発サーバー、`vite build` でビルドとフロントエンドとコマンドは変わりません。フロントエンドとバックエンドの環境を統一することでプラグインを統一できることや、Cloudflare 公式が提供している手段を利用するために、バックエンドでも Vite を採用しました。
+
+前述した Environment API を使用した Cloudflare の Vite Plugin を使用し、開発サーバーで内部的に Cloudflare 互換サーバーと接続されます。
+```ts:vite.config.ts
+import { cloudflare } from "@cloudflare/vite-plugin";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [cloudflare()],
+  server: {
+    port: 3030,
+  }
+});
+```
+このようにするだけで `src/main.ts` を実行してくれます。Hono アプリケーションをそのまま使えるので便利です。以前は Bun だったのですが、Cloudflare の環境を再現するための余計なコードが減ったのでいい変化でした。
+
 ## 8 月
 
 ### tsgolint
